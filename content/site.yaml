@@ -1,0 +1,76 @@
+# All page text lives in this file. Edit text after the colons, keep field names as they are.
+# "TODO" means the text is not written yet. It shows on the page as a yellow placeholder.
+
+meta:
+  published: false          # false = noindex + robots disallow. Set true on launch day
+  site_url: https://speaker.juliakrylova.com
+  title: "TODO: page title, up to 60 characters"
+  description: "TODO: meta description, up to 155 characters"
+  og_image: julia-krylova.jpg
+
+person:
+  name: Julia Krylova
+  positioning: "TODO: one line, who she is and what she does"
+  location: "Amsterdam, Netherlands"
+  languages: [English, Russian]
+  email_speaking: "TODO"
+  email_podcast: "TODO"
+  main_site: https://www.juliakrylova.com
+
+hero:
+  photo: julia-krylova.jpg
+  headline: "TODO"
+  subhead: "TODO: two sentences maximum"
+  cta_label: "Check my availability"
+
+proof:
+  stats:
+    - value: "TODO"
+      label: "TODO"
+  clients_label: "Selected clients"
+  clients: []               # names only, logos added later
+
+video:
+  enabled: true
+  file: "TODO: filename in content/video or a YouTube/Vimeo id"
+  poster: "TODO"
+  caption: "TODO"
+
+topics:
+  - title: "TODO"
+    summary: "TODO: two or three sentences"
+    takeaways: ["TODO"]
+    formats: ["TODO: e.g. Keynote 45 min"]
+
+formats:
+  delivery: []              # Keynote, Workshop, Panel, Fireside chat
+  settings: []              # In person, Virtual
+  languages: [English, Russian]
+  av_notes: "TODO"
+
+testimonials:
+  - quote: "TODO"
+    name: "TODO"
+    role: "TODO"
+    company: "TODO"
+
+about:
+  bio_long: "TODO"
+  photo: "TODO"
+
+press_kit:
+  bios:
+    one_line: "TODO"
+    short_50: "TODO"
+    medium_150: "TODO"
+    long_300: "TODO"
+  intro_script: "TODO: what the host reads out loud on stage"
+
+press_mentions: []          # empty list = section hidden
+
+podcast:
+  enabled: false            # turn on later, after launch
+  talking_points: []
+  questions: []
+  origin_story: "TODO"
+  appearances: []

@@ -1,0 +1,247 @@
+/* Print styles. Used twice:
+   1. Linked with media="print" on the page, Playwright prints it as the full media kit PDF.
+   2. Inlined into the one-sheet HTML that scripts/pdf.mjs renders separately. */
+
+@media print {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--porcelain);
+  color: var(--navy);
+}
+
+/* Never print navigation, buttons or the video player */
+
+.site-header,
+.skip-link,
+.site-nav,
+.btn,
+.copy-btn,
+.video-frame video,
+.video-frame iframe {
+  display: none !important;
+}
+
+/* The static frame that replaces the video in print */
+
+.print-only {
+  display: block !important;
+}
+
+.video-print-frame img,
+.video-print-frame .img-placeholder {
+  border-radius: 6pt;
+}
+
+.video-print-note {
+  font-size: 9pt;
+  margin-top: 6pt;
+}
+
+/* Print typography */
+
+body {
+  font-size: 10.5pt;
+  line-height: 1.5;
+}
+
+.todo,
+.img-placeholder,
+.proof .stat-value {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Keep large media on one printed page */
+
+.img-placeholder {
+  break-inside: avoid;
+  max-height: 100mm;
+  min-height: 50mm;
+}
+
+.hero-media img,
+.about-media img {
+  max-height: 110mm;
+  width: auto;
+  break-inside: avoid;
+}
+
+.section {
+  padding-block: 14pt;
+}
+
+h1 {
+  font-size: 24pt;
+}
+
+h2 {
+  font-size: 15pt;
+  margin-bottom: 8pt;
+}
+
+h3 {
+  font-size: 11.5pt;
+}
+
+.hero {
+  padding-block: 10pt;
+}
+
+.card,
+.quote,
+.bio-block,
+.dl-card,
+.fact {
+  break-inside: avoid;
+}
+
+h2,
+h3 {
+  break-after: avoid;
+}
+
+.proof,
+.site-footer {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+a {
+  color: var(--navy);
+}
+
+/* ============================================================
+   One-sheet: a single A4 page rendered from its own template
+   ============================================================ */
+
+body.one-sheet {
+  font-family: var(--font-sans);
+  font-size: 9.5pt;
+  line-height: 1.45;
+  margin: 0;
+  background: var(--porcelain);
+  color: var(--navy);
+}
+
+.one-sheet .os-header {
+  border-bottom: 2pt solid var(--gold);
+  padding-bottom: 10pt;
+  margin-bottom: 12pt;
+}
+
+.one-sheet h1 {
+  font-family: var(--font-serif);
+  font-size: 22pt;
+  font-weight: 600;
+  margin: 0 0 4pt;
+}
+
+.one-sheet .os-positioning {
+  font-family: var(--font-serif);
+  font-size: 11.5pt;
+  color: var(--aubergine);
+  margin: 0 0 4pt;
+}
+
+.one-sheet .os-meta {
+  font-size: 8.5pt;
+  margin: 0;
+}
+
+.one-sheet h2 {
+  font-family: var(--font-sans);
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--aubergine);
+  margin: 0 0 6pt;
+}
+
+.one-sheet section {
+  margin-bottom: 12pt;
+  break-inside: avoid;
+}
+
+.one-sheet .os-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8pt 24pt;
+}
+
+.one-sheet .os-stat-value {
+  font-family: var(--font-serif);
+  font-size: 15pt;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.2;
+}
+
+.one-sheet .os-stat-label {
+  font-size: 8.5pt;
+}
+
+.one-sheet .os-topic {
+  margin-bottom: 8pt;
+}
+
+.one-sheet .os-topic h3 {
+  font-family: var(--font-serif);
+  font-size: 11pt;
+  font-weight: 600;
+  margin: 0 0 2pt;
+}
+
+.one-sheet .os-topic p {
+  margin: 0 0 2pt;
+}
+
+.one-sheet .os-topic .os-format {
+  font-size: 8.5pt;
+  color: var(--navy);
+}
+
+.one-sheet .os-quote {
+  border-left: 2.5pt solid var(--aubergine);
+  padding-left: 10pt;
+  margin: 0;
+}
+
+.one-sheet .os-quote blockquote {
+  font-family: var(--font-serif);
+  font-size: 10.5pt;
+  margin: 0 0 4pt;
+}
+
+.one-sheet .os-quote figcaption {
+  font-size: 8.5pt;
+}
+
+.one-sheet .os-contact {
+  border-top: 1pt solid var(--warm-grey);
+  padding-top: 10pt;
+}
+
+.one-sheet .os-contact p {
+  margin: 0 0 3pt;
+}
+
+.one-sheet .os-footnote {
+  font-size: 8pt;
+  color: var(--navy);
+  opacity: 0.75;
+  margin-top: 14pt;
+}
+
+.one-sheet .todo {
+  background: var(--champagne);
+  border: 0.75pt dashed var(--gold);
+  border-radius: 3pt;
+  padding: 0 3pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
