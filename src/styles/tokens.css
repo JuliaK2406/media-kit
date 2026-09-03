@@ -2,28 +2,40 @@
 
 :root {
   /* Brand palette */
-  --aubergine: #5E1A4D;   /* signature: hero accents, quote bars, key moments */
-  --navy: #1E2A47;        /* all text and dark sections, instead of black */
+  --aubergine: #5E1A4D;   /* signature: max three appearances per page */
+  --navy: #1E2A47;        /* all text and the single dark section, instead of black */
   --porcelain: #FAF8F5;   /* page background, instead of pure white */
-  --gold: #B89B5E;        /* buttons and thin lines only */
-  --warm-grey: #E4E2DD;   /* dividers */
+  --gold: #B89B5E;        /* hairlines and button outlines only, never a fill */
+  --warm-grey: #E4E2DD;   /* 1px hairlines and decorative numerals */
   --champagne: #EFDCAC;   /* rare accent, also the TODO placeholder */
 
-  /* Navy-based shadow, no new hues */
-  --shadow-card: 0 1px 2px rgba(30, 42, 71, 0.05), 0 6px 20px rgba(30, 42, 71, 0.07);
+  /* Navy at 70% over porcelain for small captions: warm grey text on porcelain
+     would fall far below the required 4.5:1 contrast, this stays above 5:1 */
+  --navy-muted: rgba(30, 42, 71, 0.7);
+  /* Secondary text on the navy video section, contrast about 8.7:1 */
+  --porcelain-muted: rgba(250, 248, 245, 0.78);
 
   /* Typography */
   --font-serif: "Lora", Georgia, "Times New Roman", serif;
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 
-  --text-sm: 0.875rem;
-  --text-base: 1.0625rem;
-  --text-lg: 1.1875rem;
-  --leading: 1.65;
+  /* Modular scale, ratio 1.25, base 18px */
+  --text-xs: 0.75rem;        /* 12px: overlines, captions, small labels */
+  --text-sm: 0.875rem;       /* 14px: secondary lines */
+  --text-base: 1.125rem;     /* 18px: body */
+  --text-md: 1.40625rem;     /* 22.5px: leads and subheads */
+  --text-lg: 1.75rem;        /* 28px */
 
-  --h1-size: clamp(2.1rem, 1.3rem + 3.2vw, 3.2rem);
-  --h2-size: clamp(1.55rem, 1.25rem + 1.3vw, 2.1rem);
-  --h3-size: 1.25rem;
+  --hero-size: clamp(2.75rem, 6.5vw, 4.75rem);   /* 44px to 76px */
+  --h2-size: clamp(1.75rem, 3.5vw, 2.5rem);      /* 28px to 40px */
+  --h3-size: 1.375rem;
+  --stat-size: clamp(2.25rem, 1.5rem + 2.2vw, 3.25rem);
+  --quote-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.125rem);
+
+  --leading-body: 1.65;
+  --leading-tight: 1.15;
+  --track-caps: 0.16em;
+  --track-btn: 0.08em;
 
   /* Spacing scale */
   --s-1: 0.25rem;
@@ -33,12 +45,16 @@
   --s-5: 1.5rem;
   --s-6: 2.5rem;
   --s-7: 4rem;
-  --s-8: 6rem;
+
+  /* Air between sections: 64-80px on phones, 96-140px on desktop */
+  --section-gap: clamp(4rem, 3rem + 6vw, 8.5rem);
+  /* Heading to section content, never less than 32px */
+  --head-gap: clamp(2rem, 1.5rem + 1.5vw, 3rem);
 
   /* Layout */
   --page-max: 1120px;
   --page-pad: max(20px, 4vw);
   --measure: 65ch;
-  --radius: 10px;
-  --header-h: 3.4rem;
+  --radius: 2px;
+  --header-h: 3.6rem;
 }

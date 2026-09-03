@@ -2,12 +2,6 @@
    1. Linked with media="print" on the page, Playwright prints it as the full media kit PDF.
    2. Inlined into the one-sheet HTML that scripts/pdf.mjs renders separately. */
 
-@media print {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
 body {
   background: var(--porcelain);
   color: var(--navy);
@@ -20,20 +14,40 @@ body {
 .site-nav,
 .btn,
 .copy-btn,
+#top-sentinel,
 .video-frame video,
 .video-frame iframe {
   display: none !important;
+}
+
+/* The reveal animation must not leave anything invisible in the PDF:
+   Playwright prints the page after scripts have run */
+
+.will-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* The dark video field stays a light block in print */
+
+.section-video {
+  background: none !important;
+  color: var(--navy) !important;
+  padding-block: 14pt;
+  margin: 0;
+}
+
+.section-video .overline,
+.video-frame figcaption {
+  color: var(--navy) !important;
+  text-align: left;
 }
 
 /* The static frame that replaces the video in print */
 
 .print-only {
   display: block !important;
-}
-
-.video-print-frame img,
-.video-print-frame .img-placeholder {
-  border-radius: 6pt;
 }
 
 .video-print-note {
@@ -48,9 +62,59 @@ body {
   line-height: 1.5;
 }
 
+.section,
+.contact {
+  padding-block: 14pt;
+}
+
+h1 {
+  font-size: 24pt;
+}
+
+h2 {
+  font-size: 15pt;
+  margin-bottom: 10pt;
+}
+
+h3 {
+  font-size: 11.5pt;
+}
+
+.hero-copy {
+  padding-block: 10pt;
+}
+
+.hero .subhead {
+  font-size: 12pt;
+}
+
+.quote-featured blockquote {
+  font-size: 14pt;
+}
+
+.stat-value {
+  font-size: 16pt;
+}
+
+.topic,
+.quote-featured,
+.quote-small,
+.bio-block,
+.fact-row,
+.stat,
+.dl-row {
+  break-inside: avoid;
+}
+
+h2,
+h3 {
+  break-after: avoid;
+}
+
 .todo,
 .img-placeholder,
-.proof .stat-value {
+.stat,
+.takeaways li::before {
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
@@ -66,48 +130,10 @@ body {
 .hero-media img,
 .about-media img {
   max-height: 110mm;
-  width: auto;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
   break-inside: avoid;
-}
-
-.section {
-  padding-block: 14pt;
-}
-
-h1 {
-  font-size: 24pt;
-}
-
-h2 {
-  font-size: 15pt;
-  margin-bottom: 8pt;
-}
-
-h3 {
-  font-size: 11.5pt;
-}
-
-.hero {
-  padding-block: 10pt;
-}
-
-.card,
-.quote,
-.bio-block,
-.dl-card,
-.fact {
-  break-inside: avoid;
-}
-
-h2,
-h3 {
-  break-after: avoid;
-}
-
-.proof,
-.site-footer {
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
 }
 
 a {
@@ -177,6 +203,7 @@ body.one-sheet {
   font-family: var(--font-serif);
   font-size: 15pt;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
   color: var(--navy);
   line-height: 1.2;
 }
@@ -213,6 +240,7 @@ body.one-sheet {
 
 .one-sheet .os-quote blockquote {
   font-family: var(--font-serif);
+  font-style: italic;
   font-size: 10.5pt;
   margin: 0 0 4pt;
 }
@@ -230,17 +258,10 @@ body.one-sheet {
   margin: 0 0 3pt;
 }
 
-.one-sheet .os-footnote {
-  font-size: 8pt;
-  color: var(--navy);
-  opacity: 0.75;
-  margin-top: 14pt;
-}
-
 .one-sheet .todo {
   background: var(--champagne);
   border: 0.75pt dashed var(--gold);
-  border-radius: 3pt;
+  border-radius: 2pt;
   padding: 0 3pt;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;

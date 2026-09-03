@@ -2,7 +2,7 @@
 // from the same site.yaml. The full media kit PDF is printed straight from
 // dist/index.html with print.css, so it needs no template of its own.
 
-import { esc, isTodo, t } from './page.mjs';
+import { esc, isTodo, t, quoted } from './page.mjs';
 
 export function renderOneSheet(site, { css = '' } = {}) {
   const p = site.person ?? {};
@@ -34,7 +34,7 @@ export function renderOneSheet(site, { css = '' } = {}) {
   const q = (site.testimonials ?? [])[0];
   const quote = q
     ? `<figure class="os-quote">
-      <blockquote>${t(q.quote)}</blockquote>
+      <blockquote>${quoted(q.quote)}</blockquote>
       <figcaption>${[t(q.name), t(q.role), t(q.company)].filter(Boolean).join(', ')}</figcaption>
     </figure>`
     : '';

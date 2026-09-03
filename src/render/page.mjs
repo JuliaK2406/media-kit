@@ -17,7 +17,12 @@ export const t = (v) => {
   return isTodo(v) ? `<span class="todo">${esc(v)}</span>` : esc(v);
 };
 
+// Typographic quotes for testimonial text; TODO fields keep the placeholder look
+export const quoted = (v) => (isTodo(v) || v == null ? t(v) : `&ldquo;${esc(v)}&rdquo;`);
+
 const nonEmpty = (arr) => Array.isArray(arr) && arr.length > 0;
+
+const CAPS_DOT = ' <span aria-hidden="true">&middot;</span> ';
 
 const findImage = (manifest, ref) => {
   if (!ref || isTodo(ref)) return null;
@@ -26,7 +31,7 @@ const findImage = (manifest, ref) => {
   return Object.values(manifest).find((m) => m.slug === slug) ?? null;
 };
 
-export function picture(manifest, ref, { alt, eager = false, sizes = '(min-width: 880px) 45vw, 92vw' } = {}) {
+export function picture(manifest, ref, { alt, eager = false, sizes = '(min-width: 900px) 48vw, 100vw' } = {}) {
   const m = findImage(manifest, ref);
   if (!m) {
     return `<div class="img-placeholder"><span>Photo pending: ${t(ref) || 'no file set'}</span></div>`;
@@ -70,7 +75,7 @@ function header(site) {
   <div class="container inner">
     <a class="brand" href="#top">${esc(site.person.name)}</a>
     <nav class="site-nav" aria-label="Page sections">${links}</nav>
-    <a class="btn btn-outline btn-sm" href="${KIT_PDF}" download>Download media kit</a>
+    <a class="btn btn-sm" href="${KIT_PDF}" download>Download media kit</a>
   </div>
 </header>`;
 }
@@ -81,18 +86,21 @@ function hero(site, manifest) {
   const metaLine = [p.location, nonEmpty(p.languages) ? p.languages.join(' / ') : '']
     .filter(Boolean)
     .map(esc)
-    .join(' &middot; ');
+    .join(CAPS_DOT);
   return `<section class="hero" aria-label="Introduction">
-  <div class="container grid">
+  <div class="hero-grid">
+    <div class="hero-media">${picture(manifest, h.photo, {
+      alt: `Portrait of ${p.name ?? 'the speaker'}`,
+      eager: true,
+      sizes: '(min-width: 900px) 48vw, 100vw',
+    })}</div>
     <div class="hero-copy">
-      <h1>${esc(p.name ?? '')}</h1>
-      <p class="positioning">${t(p.positioning)}</p>
-      <p class="hero-headline">${t(h.headline)}</p>
+      <p class="hero-overline">${esc(p.name ?? '')}</p>
+      <h1>${t(h.headline)}</h1>
       <p class="subhead">${t(h.subhead)}</p>
-      <p class="meta-line">${metaLine}</p>
       <p class="hero-cta">${ctaButton(site)}</p>
+      <p class="meta-line">${metaLine}</p>
     </div>
-    <div class="hero-media">${picture(manifest, h.photo, { alt: `Portrait of ${p.name ?? 'the speaker'}`, eager: true })}</div>
   </div>
 </section>`;
 }
@@ -102,7 +110,7 @@ function proof(site) {
   const stats = nonEmpty(pr.stats)
     ? `<div class="stats">${pr.stats
         .map(
-          (s) => `<div class="stat">
+          (s) => `<div class="stat" data-reveal>
         <div class="stat-value">${t(s.value)}</div>
         <div class="stat-label">${t(s.label)}</div>
       </div>`,
@@ -110,13 +118,12 @@ function proof(site) {
         .join('')}</div>`
     : '';
   const clients = nonEmpty(pr.clients)
-    ? `<div class="clients">
-      <p class="clients-label">${esc(pr.clients_label ?? 'Selected clients')}</p>
-      <div class="clients-list">${pr.clients.map((c) => `<span>${t(c)}</span>`).join('')}</div>
-    </div>`
+    ? `<p class="clients-line" data-reveal><span class="clients-label">${esc(pr.clients_label ?? 'Selected clients')}</span>${pr.clients
+        .map((c) => `<span class="client-name">${t(c)}</span>`)
+        .join(' ')}</p>`
     : '';
   if (!stats && !clients) return '';
-  return `<section class="proof" aria-label="Key facts">
+  return `<section class="section proof" aria-label="Key facts">
   <div class="container">${stats}${clients}</div>
 </section>`;
 }
@@ -143,9 +150,9 @@ function videoSection(site, manifest) {
     ? `<img src="img/${posterImg.slug}-${posterWidth(posterImg)}.jpg" alt="Still frame from the video">`
     : `<div class="img-placeholder"><span>Video still pending</span></div>`;
   const watchUrl = `${String(site.meta?.site_url ?? '').replace(/\/$/, '')}/#video`;
-  return `<section id="video" class="section video" aria-label="Video">
-  <div class="container">
-    <h2>Video</h2>
+  return `<section id="video" class="section-video" aria-label="Video">
+  <div class="container" data-reveal>
+    <h2 class="sr-only">Video</h2>
     <figure class="video-frame">
       ${media}
       <figcaption>${t(v.caption)}</figcaption>
@@ -160,25 +167,28 @@ function videoSection(site, manifest) {
 
 function topics(site) {
   if (!nonEmpty(site.topics)) return '';
-  const cards = site.topics
+  const items = site.topics
     .map(
-      (tp) => `<article class="card">
-      <h3>${t(tp.title)}</h3>
-      <p>${t(tp.summary)}</p>
-      ${
-        nonEmpty(tp.takeaways)
-          ? `<p class="takeaways-label">What the audience takes away</p>
-      <ul>${tp.takeaways.map((x) => `<li>${t(x)}</li>`).join('')}</ul>`
-          : ''
-      }
-      ${nonEmpty(tp.formats) ? `<p class="format-line">${tp.formats.map((f) => t(f)).join(' &middot; ')}</p>` : ''}
-    </article>`,
+      (tp, i) => `<li class="topic" data-reveal>
+      <div class="topic-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</div>
+      <div class="topic-body">
+        <h3>${t(tp.title)}</h3>
+        <p class="topic-summary">${t(tp.summary)}</p>
+        ${
+          nonEmpty(tp.takeaways)
+            ? `<p class="takeaways-label">What the audience takes away</p>
+        <ul class="takeaways">${tp.takeaways.map((x) => `<li>${t(x)}</li>`).join('')}</ul>`
+            : ''
+        }
+        ${nonEmpty(tp.formats) ? `<p class="topic-formats">${tp.formats.map((f) => t(f)).join(CAPS_DOT)}</p>` : ''}
+      </div>
+    </li>`,
     )
     .join('');
   return `<section id="topics" class="section topics">
   <div class="container">
     <h2>Speaking topics</h2>
-    <div class="cards">${cards}</div>
+    <ol class="topic-list">${items}</ol>
   </div>
 </section>`;
 }
@@ -186,38 +196,52 @@ function topics(site) {
 function formats(site) {
   const f = site.formats;
   if (!f) return '';
-  const fact = (label, body) => (body ? `<div class="fact"><h3>${label}</h3>${body}</div>` : '');
-  const list = (items) => (nonEmpty(items) ? `<ul>${items.map((x) => `<li>${t(x)}</li>`).join('')}</ul>` : '');
-  const facts = [
-    fact('Delivery', list(f.delivery)),
-    fact('Setting', list(f.settings)),
-    fact('Languages', nonEmpty(f.languages) ? `<p>${f.languages.map(esc).join(', ')}</p>` : ''),
-    fact('Technical requirements', f.av_notes ? `<p>${t(f.av_notes)}</p>` : ''),
+  const row = (label, body) =>
+    body
+      ? `<div class="fact-row">
+      <h3 class="fact-label">${label}</h3>
+      <div class="fact-value">${body}</div>
+    </div>`
+      : '';
+  const joined = (items) => (nonEmpty(items) ? items.map((x) => t(x)).join(CAPS_DOT) : '');
+  const rows = [
+    row('Delivery', joined(f.delivery)),
+    row('Setting', joined(f.settings)),
+    row('Languages', nonEmpty(f.languages) ? f.languages.map(esc).join(CAPS_DOT) : ''),
+    row('Technical requirements', f.av_notes ? `<p>${t(f.av_notes)}</p>` : ''),
   ].join('');
-  if (!facts) return '';
+  if (!rows) return '';
   return `<section id="formats" class="section formats">
   <div class="container">
     <h2>Formats and logistics</h2>
-    <div class="facts">${facts}</div>
+    <div class="fact-rows" data-reveal>${rows}</div>
   </div>
 </section>`;
 }
 
 function testimonials(site) {
   if (!nonEmpty(site.testimonials)) return '';
-  const quotes = site.testimonials
-    .map((q) => {
-      const attribution = [t(q.name), t(q.role), t(q.company)].filter(Boolean).join(', ');
-      return `<figure class="quote">
-      <blockquote>${t(q.quote)}</blockquote>
-      <figcaption><span class="quote-name">${attribution}</span></figcaption>
-    </figure>`;
-    })
-    .join('');
+  const attribution = (q) => [t(q.name), t(q.role), t(q.company)].filter(Boolean).join(', ');
+  const [featured, ...rest] = site.testimonials;
+  const featuredHtml = `<figure class="quote-featured" data-reveal>
+    <blockquote>${isTodo(featured.quote) ? t(featured.quote) : `${esc(featured.quote)}&rdquo;`}</blockquote>
+    <figcaption class="quote-attribution">${attribution(featured)}</figcaption>
+  </figure>`;
+  const restHtml = nonEmpty(rest)
+    ? `<div class="quote-grid">${rest
+        .map(
+          (q) => `<figure class="quote-small" data-reveal>
+      <blockquote>${quoted(q.quote)}</blockquote>
+      <figcaption>${attribution(q)}</figcaption>
+    </figure>`,
+        )
+        .join('')}</div>`
+    : '';
   return `<section id="testimonials" class="section testimonials">
   <div class="container">
     <h2>Testimonials</h2>
-    <div class="quotes">${quotes}</div>
+    ${featuredHtml}
+    ${restHtml}
   </div>
 </section>`;
 }
@@ -228,14 +252,17 @@ function about(site, manifest) {
   const paragraphs = String(a.bio_long ?? '')
     .split(/\n{2,}/)
     .filter((p) => p.trim())
-    .map((p) => `<p>${t(p.trim())}</p>`)
+    .map((p, i) => `<p${i === 0 ? ' class="lead"' : ''}>${t(p.trim())}</p>`)
     .join('');
   return `<section id="about" class="section about">
-  <div class="container">
-    <h2>About</h2>
-    <div class="grid">
-      <div class="about-media">${picture(manifest, a.photo, { alt: `Portrait of ${site.person.name}` })}</div>
-      <div class="about-copy">${paragraphs}</div>
+  <div class="about-grid">
+    <div class="about-media" data-reveal>${picture(manifest, a.photo, {
+      alt: `Portrait of ${site.person.name}`,
+      sizes: '(min-width: 900px) 44vw, 100vw',
+    })}</div>
+    <div class="about-copy" data-reveal>
+      <h2>About</h2>
+      ${paragraphs}
     </div>
   </div>
 </section>`;
@@ -243,54 +270,60 @@ function about(site, manifest) {
 
 function pressKit(site, manifest) {
   const pk = site.press_kit ?? {};
+  const dlRow = (href, title, meta) => `<a class="dl-row" href="${esc(href)}" download>
+      <span class="dl-title">${title}</span>
+      <span class="dl-meta">${meta}<span class="dl-arrow" aria-hidden="true">&darr;</span></span>
+    </a>`;
+  const photoTitle = (m) => {
+    const words = m.slug.replace(/^julia-krylova-?/, '').split('-').filter(Boolean);
+    const label = words.length ? words.map((w) => w[0].toUpperCase() + w.slice(1)).join(' ') : 'Portrait';
+    return `Photo: ${label}`;
+  };
+  const photoRows = Object.values(manifest)
+    .map((m) => dlRow(m.press, esc(photoTitle(m)), 'JPEG'))
+    .join('');
   const bios = [
     ['One line bio', 'one_line'],
     ['Short bio (about 50 words)', 'short_50'],
     ['Medium bio (about 150 words)', 'medium_150'],
     ['Long bio (about 300 words)', 'long_300'],
   ];
+  const bioParagraphs = (value) =>
+    String(value ?? '')
+      .split(/\n{2,}/)
+      .filter((p) => p.trim())
+      .map((p) => `<p>${t(p.trim())}</p>`)
+      .join('');
   const bioBlocks = bios
     .map(([label, key]) => {
       const value = pk.bios?.[key];
-      const copyBtn = !value || isTodo(value) ? '' : `<button type="button" class="btn btn-outline btn-sm copy-btn" data-copy="bio-${key}" hidden>Copy</button>`;
-      return `<div class="bio-block">
+      const copyBtn =
+        !value || isTodo(value)
+          ? ''
+          : `<button type="button" class="btn btn-sm copy-btn" data-copy="bio-${key}" hidden>Copy</button>`;
+      return `<div class="bio-block" data-reveal>
       <div class="bio-head"><h3>${label}</h3>${copyBtn}</div>
-      <p id="bio-${key}">${t(value)}</p>
+      <div id="bio-${key}">${bioParagraphs(value)}</div>
     </div>`;
     })
     .join('');
   const intro = pk.intro_script
-    ? `<div class="bio-block">
+    ? `<div class="bio-block" data-reveal>
       <div class="bio-head"><h3>Introduction script</h3>${
-        isTodo(pk.intro_script) ? '' : '<button type="button" class="btn btn-outline btn-sm copy-btn" data-copy="intro-script" hidden>Copy</button>'
+        isTodo(pk.intro_script)
+          ? ''
+          : '<button type="button" class="btn btn-sm copy-btn" data-copy="intro-script" hidden>Copy</button>'
       }</div>
-      <p id="intro-script">${t(pk.intro_script)}</p>
+      <div id="intro-script">${bioParagraphs(pk.intro_script)}</div>
     </div>`
     : '';
-  const photoLinks = Object.values(manifest)
-    .map((m) => `<li><a href="${esc(m.press)}" download>${esc(m.pressName)}</a></li>`)
-    .join('');
-  const photosCard = photoLinks
-    ? `<ul class="press-photo-list">${photoLinks}</ul>`
-    : `<p>High resolution photos will appear here once they are uploaded.</p>`;
   return `<section id="press-kit" class="section press-kit">
   <div class="container">
     <h2>Press kit</h2>
-    <div class="dl-cards">
-      <div class="dl-card">
-        <h3>Full media kit</h3>
-        <p>Everything on this page as a single PDF. A4.</p>
-        <a class="btn btn-sm" href="${KIT_PDF}" download>Download PDF</a>
-      </div>
-      <div class="dl-card">
-        <h3>Speaker one-sheet</h3>
-        <p>One page summary for organisers. A4.</p>
-        <a class="btn btn-sm" href="${ONESHEET_PDF}" download>Download PDF</a>
-      </div>
-      <div class="dl-card">
-        <h3>Photos</h3>
-        ${photosCard}
-      </div>
+    <div class="press-downloads" data-reveal>
+      ${dlRow(KIT_PDF, 'Full media kit', 'PDF, A4')}
+      ${dlRow(ONESHEET_PDF, 'Speaker one-sheet', 'PDF, A4')}
+      ${photoRows}
     </div>
     ${bioBlocks}
     ${intro}
@@ -351,19 +384,25 @@ function podcast(site) {
 
 function contact(site) {
   const p = site.person ?? {};
-  const line = (label, email, field) => {
-    if (!email) return '';
-    const value = isTodo(email)
-      ? `<span class="todo">TODO: ${field}</span>`
-      : `<a href="${esc(mailto(email, p.name))}">${esc(email)}</a>`;
-    return `<p class="contact-line">${label}: ${value}</p>`;
-  };
-  return `<section id="contact" class="section contact">
-  <div class="container">
-    <h2>Contact</h2>
-    ${line('Speaking enquiries', p.email_speaking, 'person.email_speaking')}
-    ${site.podcast?.enabled === true ? line('Podcast enquiries', p.email_podcast, 'person.email_podcast') : ''}
-    <p class="hero-cta">${ctaButton(site)}</p>
+  const email = p.email_speaking;
+  const emailLine =
+    !email || isTodo(email)
+      ? `<p class="contact-big"><span class="todo">TODO: person.email_speaking</span></p>`
+      : `<p class="contact-big"><a href="${esc(mailto(email, p.name))}">${esc(email)}</a></p>`;
+  const podcastLine =
+    site.podcast?.enabled === true && p.email_podcast && p.email_podcast !== p.email_speaking
+      ? `<p class="overline">Podcast enquiries: ${
+          isTodo(p.email_podcast)
+            ? `<span class="todo">TODO: person.email_podcast</span>`
+            : `<a href="mailto:${esc(p.email_podcast)}">${esc(p.email_podcast)}</a>`
+        }</p>`
+      : '';
+  return `<section id="contact" class="contact">
+  <div class="container" data-reveal>
+    <h2 class="overline">Contact</h2>
+    ${emailLine}
+    <p>${ctaButton(site)}</p>
+    ${podcastLine}
   </div>
 </section>`;
 }
@@ -386,8 +425,7 @@ function footer(site) {
 </footer>`;
 }
 
-// Progressive enhancement only: without JS the copy buttons stay hidden
-// and the page keeps working. This is the only script on the page.
+// Script one: copy buttons. Progressive enhancement only, buttons stay hidden without JS.
 const copyScript = `<script>
 (function () {
   if (!navigator.clipboard) return;
@@ -406,25 +444,59 @@ const copyScript = `<script>
 })();
 </script>`;
 
+// Script two: section reveal plus the header hairline that appears after scroll.
+// The hidden state is added here, not in CSS, so everything is visible without JS.
+const revealScript = `<script>
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  var header = document.querySelector('.site-header');
+  var sentinel = document.getElementById('top-sentinel');
+  if (header && sentinel) {
+    new IntersectionObserver(function (entries) {
+      header.classList.toggle('is-top', entries[0].isIntersecting);
+    }).observe(sentinel);
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var targets = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+  targets.forEach(function (el) { el.classList.add('will-reveal'); });
+  var io = new IntersectionObserver(function (entries) {
+    entries.filter(function (e) { return e.isIntersecting; }).forEach(function (entry, i) {
+      entry.target.style.transitionDelay = (i * 60) + 'ms';
+      entry.target.classList.add('is-revealed');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  targets.forEach(function (el) { io.observe(el); });
+})();
+</script>`;
+
 export function renderPage(site, { manifest = {} } = {}) {
   const m = site.meta ?? {};
+  const p = site.person ?? {};
   const published = m.published === true;
   const ogImg = findImage(manifest, m.og_image);
   const baseUrl = String(m.site_url ?? '').replace(/\/$/, '');
   const ogImgUrl = ogImg ? `${baseUrl}/img/${ogImg.slug}-${ogImg.widths[ogImg.widths.length - 1]}.jpg` : '';
+  // person.positioning is meta material only: description tags and the share
+  // preview. It never renders in the visible page.
+  const description = m.description ?? p.positioning ?? '';
+  const shareDescription = p.positioning ?? m.description ?? '';
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(m.title ?? site.person?.name ?? '')}</title>
-<meta name="description" content="${esc(m.description ?? '')}">
+<title>${esc(m.title ?? p.name ?? '')}</title>
+<meta name="description" content="${esc(description)}">
 ${published ? `<link rel="canonical" href="${esc(baseUrl)}/">` : '<meta name="robots" content="noindex, nofollow">'}
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(m.title ?? '')}">
-<meta property="og:description" content="${esc(m.description ?? '')}">
+<meta property="og:description" content="${esc(shareDescription)}">
 <meta property="og:url" content="${esc(baseUrl)}/">
 ${ogImgUrl ? `<meta property="og:image" content="${esc(ogImgUrl)}">\n<meta name="twitter:card" content="summary_large_image">` : ''}
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;1,500&display=swap">
@@ -433,6 +505,7 @@ ${ogImgUrl ? `<meta property="og:image" content="${esc(ogImgUrl)}">\n<meta name=
 <link rel="stylesheet" href="styles/print.css" media="print">
 </head>
 <body id="top">
+<div id="top-sentinel" aria-hidden="true"></div>
 <a class="skip-link" href="#speaking">Skip to content</a>
 ${header(site)}
 <main>
@@ -452,6 +525,7 @@ ${contact(site)}
 </main>
 ${footer(site)}
 ${copyScript}
+${revealScript}
 </body>
 </html>
 `;

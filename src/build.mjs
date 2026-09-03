@@ -25,6 +25,7 @@ await mkdir(path.join(distDir, 'styles'), { recursive: true });
 for (const f of ['tokens.css', 'page.css', 'print.css']) {
   await cp(path.join(root, 'src', 'styles', f), path.join(distDir, 'styles', f));
 }
+await cp(path.join(root, 'src', 'assets', 'favicon.svg'), path.join(distDir, 'favicon.svg'));
 
 // Video files are optional until content/video gets real material
 try {
