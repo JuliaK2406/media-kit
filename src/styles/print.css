@@ -127,6 +127,10 @@ h3 {
   min-height: 50mm;
 }
 
+.about-media {
+  position: static !important;
+}
+
 .hero-media img,
 .about-media img {
   max-height: 110mm;

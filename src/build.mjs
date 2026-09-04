@@ -19,7 +19,11 @@ const published = site?.meta?.published === true;
 await rm(distDir, { recursive: true, force: true });
 await mkdir(distDir, { recursive: true });
 
-const manifest = await buildImages({ photosDir: path.join(root, 'content', 'photos'), distDir });
+const manifest = await buildImages({
+  photosDir: path.join(root, 'content', 'photos'),
+  distDir,
+  posterFile: site?.video?.poster,
+});
 
 await mkdir(path.join(distDir, 'styles'), { recursive: true });
 for (const f of ['tokens.css', 'page.css', 'print.css']) {

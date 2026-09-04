@@ -95,7 +95,6 @@ function hero(site, manifest) {
       sizes: '(min-width: 900px) 48vw, 100vw',
     })}</div>
     <div class="hero-copy">
-      <p class="hero-overline">${esc(p.name ?? '')}</p>
       <h1>${t(h.headline)}</h1>
       <p class="subhead">${t(h.subhead)}</p>
       <p class="hero-cta">${ctaButton(site)}</p>
@@ -137,7 +136,8 @@ function videoSection(site, manifest) {
   if (!file || isTodo(file)) {
     media = `<div class="img-placeholder"><span>${t(file) || 'Video pending'}</span></div>`;
   } else if (/\.(mp4|webm|mov)$/i.test(file)) {
-    const posterAttr = posterImg ? ` poster="img/${posterImg.slug}-${posterWidth(posterImg)}.jpg"` : '';
+    const posterSrc = posterImg ? posterImg.poster ?? `img/${posterImg.slug}-${posterWidth(posterImg)}.jpg` : '';
+    const posterAttr = posterSrc ? ` poster="${posterSrc}"` : '';
     media = `<video controls preload="metadata"${posterAttr} src="video/${esc(file)}"></video>`;
   } else if (/vimeo/i.test(file) || /^\d+$/.test(file.trim())) {
     const id = file.trim().match(/(\d+)\s*$/)?.[1] ?? file.trim();
@@ -147,7 +147,7 @@ function videoSection(site, manifest) {
     media = `<iframe src="https://www.youtube-nocookie.com/embed/${esc(id)}" title="Video of ${esc(site.person.name)} speaking" loading="lazy" allow="fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
   }
   const posterPrint = posterImg
-    ? `<img src="img/${posterImg.slug}-${posterWidth(posterImg)}.jpg" alt="Still frame from the video">`
+    ? `<img src="${posterImg.poster ?? `img/${posterImg.slug}-${posterWidth(posterImg)}.jpg`}" alt="Still frame from the video">`
     : `<div class="img-placeholder"><span>Video still pending</span></div>`;
   const watchUrl = `${String(site.meta?.site_url ?? '').replace(/\/$/, '')}/#video`;
   return `<section id="video" class="section-video" aria-label="Video">

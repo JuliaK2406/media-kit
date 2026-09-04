@@ -30,8 +30,8 @@ hero:
 
 proof:
   stats:
-    - value: "25 years"
-      label: "producing international live productions"
+    - value: "25"
+      label: "years producing international live productions"
     - value: "60+"
       label: "large-scale productions delivered"
     - value: "35"

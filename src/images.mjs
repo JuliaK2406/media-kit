@@ -26,7 +26,8 @@ const titleCase = (slug) =>
     .map((w) => w[0].toUpperCase() + w.slice(1))
     .join('-');
 
-export async function buildImages({ photosDir, distDir }) {
+export async function buildImages({ photosDir, distDir, posterFile }) {
+  const posterSlug = posterFile && !posterFile.includes('TODO') ? slugify(posterFile).toLowerCase() : null;
   const manifest = {};
   let files = [];
   try {
@@ -70,6 +71,22 @@ export async function buildImages({ photosDir, distDir }) {
       .toFile(path.join(pressDir, pressName));
 
     manifest[file] = { slug, widths, width, height, press: `press/${pressName}`, pressName };
+
+    // The video poster gets its own 16:9 crop so the frame fills the player
+    // with no bars. "attention" centers the crop on the busiest region (the face).
+    if (posterSlug && slug === posterSlug) {
+      const pw = Math.min(1920, width);
+      const ph = Math.round((pw * 9) / 16);
+      const posterName = `${slug}-poster-${pw}.jpg`;
+      await sharp(src)
+        .rotate()
+        .resize({ width: pw, height: ph, fit: 'cover', position: sharp.strategy.attention })
+        .jpeg({ quality: 80, mozjpeg: true })
+        .toFile(path.join(imgDir, posterName));
+      manifest[file].poster = `img/${posterName}`;
+      console.log(`images: ${file} -> ${posterName} (16:9 poster)`);
+    }
+
     console.log(`images: ${file} -> ${widths.map((w) => w + 'px').join(', ')} + press/${pressName}`);
   }
   return manifest;
