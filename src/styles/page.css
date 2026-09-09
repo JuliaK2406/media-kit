@@ -370,7 +370,15 @@ a:hover {
   }
 }
 
-/* Stats on porcelain: hairline above each pair, Lora numerals */
+/* Stats and clients: a full width aubergine field, gold hairlines, porcelain text */
+
+.proof {
+  background: var(--aubergine);
+  color: var(--porcelain);
+  padding-block: clamp(3rem, 5vw, 5rem);
+  /* full step: this margin collapses with the video field's own margin */
+  margin-bottom: var(--section-gap);
+}
 
 .stats {
   display: grid;
@@ -385,7 +393,7 @@ a:hover {
 }
 
 .stat {
-  border-top: 1px solid var(--warm-grey);
+  border-top: 1px solid var(--gold);
   padding-top: var(--s-4);
 }
 
@@ -395,34 +403,34 @@ a:hover {
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   line-height: 1.1;
-  color: var(--navy);
+  color: var(--porcelain);
   margin-bottom: var(--s-2);
 }
 
 .stat-label {
   font-size: var(--text-sm);
-  color: var(--navy-muted);
+  color: var(--porcelain-muted);
   max-width: 15rem;
   text-wrap: pretty;
 }
 
 .clients-line {
-  margin: var(--s-7) 0 0;
+  margin: var(--s-6) 0 0;
   font-size: var(--text-xs);
   font-weight: 500;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
-  color: var(--navy-muted);
+  color: var(--porcelain-muted);
   max-width: none;
 }
 
 .clients-line .clients-label {
-  color: var(--navy-muted);
+  color: var(--porcelain-muted);
   margin-right: var(--s-4);
 }
 
 .clients-line .client-name {
-  color: var(--navy);
+  color: var(--porcelain);
   margin-right: var(--s-4);
 }
 
@@ -504,6 +512,7 @@ a:hover {
   font-size: var(--text-lg);
   font-weight: 500;
   margin-bottom: var(--s-4);
+  color: var(--aubergine);
 }
 
 .topic-summary {
@@ -627,12 +636,34 @@ a:hover {
   }
 }
 
-.quote-attribution {
+.quote-byline {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
   font-size: var(--text-xs);
   font-weight: 500;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
   color: var(--navy-muted);
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
+}
+
+.avatar-initials {
+  display: grid;
+  place-items: center;
+  background: var(--aubergine);
+  color: var(--porcelain);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
 }
 
 .quote-grid {
@@ -678,12 +709,102 @@ a:hover {
   text-wrap: pretty;
 }
 
-.quote-small figcaption {
+/* Gallery: plain 3:2 grid, captions in small caps, no lightbox */
+
+.gallery-grid {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 700px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gallery-item {
+  margin: 0;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.gallery-item figcaption {
+  margin-top: var(--s-2);
   font-size: var(--text-xs);
   font-weight: 500;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
   color: var(--navy-muted);
+}
+
+/* Selected engagements: hairline rows, event left, place and year right */
+
+.highlight-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--warm-grey);
+}
+
+.highlight-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-4);
+  border-bottom: 1px solid var(--warm-grey);
+  padding-block: var(--s-4);
+  margin: 0;
+}
+
+.highlight-event {
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  font-weight: 500;
+}
+
+.highlight-meta {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--navy-muted);
+  text-align: right;
+}
+
+/* FAQ: question in aubergine, plain answer, hairlines between pairs */
+
+.faq-list {
+  border-top: 1px solid var(--warm-grey);
+  max-width: 52rem;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--warm-grey);
+  padding-block: var(--s-5);
+}
+
+.faq-q {
+  color: var(--aubergine);
+  font-weight: 500;
+  margin-bottom: var(--s-3);
+}
+
+.faq-a {
+  margin: 0;
 }
 
 /* About: portrait bleeding to the left edge, lead paragraph */
@@ -754,11 +875,30 @@ a:hover {
 
 .dl-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--s-4);
   border-bottom: 1px solid var(--warm-grey);
-  padding-block: var(--s-4);
+  padding-block: var(--s-3);
+}
+
+.dl-left {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+.press-thumb {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.press-thumb-spacer {
+  display: inline-block;
 }
 
 .dl-row .dl-title {
@@ -807,6 +947,7 @@ a:hover {
 .bio-head h3 {
   margin: 0;
   font-weight: 500;
+  color: var(--aubergine);
 }
 
 .bio-block p {

@@ -114,9 +114,24 @@ h3 {
 .todo,
 .img-placeholder,
 .stat,
-.takeaways li::before {
+.takeaways li::before,
+.proof,
+.avatar-initials {
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
+}
+
+/* The aubergine stats field keeps its color in the PDF */
+
+.proof {
+  padding: 16pt 14pt;
+  margin: 0 0 12pt;
+}
+
+.gallery-item,
+.highlight-row,
+.faq-item {
+  break-inside: avoid;
 }
 
 /* Keep large media on one printed page */

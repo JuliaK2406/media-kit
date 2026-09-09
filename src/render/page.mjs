@@ -165,6 +165,64 @@ function videoSection(site, manifest) {
 </section>`;
 }
 
+function gallery(site, manifest) {
+  const g = site.gallery;
+  if (g?.enabled !== true || !nonEmpty(g.items)) return '';
+  const cells = g.items
+    .map((it) => {
+      const alt = isTodo(it.caption) || !it.caption ? `Event photo: ${site.person?.name ?? ''}` : it.caption;
+      return `<figure class="gallery-item" data-reveal>
+      ${picture(manifest, it.image, { alt, sizes: '(min-width: 900px) 33vw, (min-width: 700px) 50vw, 100vw' })}
+      <figcaption>${t(it.caption)}</figcaption>
+    </figure>`;
+    })
+    .join('');
+  return `<section id="gallery" class="section gallery">
+  <div class="container">
+    <h2>${t(g.title)}</h2>
+    <div class="gallery-grid">${cells}</div>
+  </div>
+</section>`;
+}
+
+function highlights(site) {
+  const h = site.highlights;
+  if (h?.enabled !== true || !nonEmpty(h.items)) return '';
+  const rows = h.items
+    .map(
+      (it) => `<li class="highlight-row" data-reveal>
+      <span class="highlight-event">${t(it.event)}</span>
+      <span class="highlight-meta">${[t(it.place), t(it.year)].filter(Boolean).join(CAPS_DOT)}</span>
+    </li>`,
+    )
+    .join('');
+  return `<section id="highlights" class="section highlights">
+  <div class="container">
+    <h2>${t(h.title)}</h2>
+    <ul class="highlight-list">${rows}</ul>
+  </div>
+</section>`;
+}
+
+function faq(site) {
+  const f = site.faq;
+  if (f?.enabled !== true || !nonEmpty(f.items)) return '';
+  const rows = f.items
+    .map(
+      (it) => `<div class="faq-item" data-reveal>
+      <h3 class="faq-q">${t(it.q)}</h3>
+      <p class="faq-a">${t(it.a)}</p>
+    </div>`,
+    )
+    .join('');
+  return `<section id="faq" class="section faq">
+  <div class="container">
+    <h2>${t(f.title)}</h2>
+    <div class="faq-list">${rows}</div>
+  </div>
+</section>`;
+}
+
 function topics(site) {
   if (!nonEmpty(site.topics)) return '';
   const items = site.topics
@@ -219,20 +277,40 @@ function formats(site) {
 </section>`;
 }
 
-function testimonials(site) {
+const initials = (name) =>
+  String(name ?? '')
+    .split(',')[0]
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w[0])
+    .filter((c, i, arr) => i === 0 || i === arr.length - 1)
+    .join('')
+    .toUpperCase();
+
+function avatar(q, manifest) {
+  const img = findImage(manifest, q.photo);
+  if (img) {
+    return `<img class="avatar" src="img/${img.slug}-${img.widths[0]}.jpg" alt="" width="48" height="48" loading="lazy">`;
+  }
+  return `<span class="avatar avatar-initials" aria-hidden="true">${esc(initials(q.name))}</span>`;
+}
+
+function testimonials(site, manifest) {
   if (!nonEmpty(site.testimonials)) return '';
   const attribution = (q) => [t(q.name), t(q.role), t(q.company)].filter(Boolean).join(', ');
+  const byline = (q) => `<figcaption class="quote-byline">${avatar(q, manifest)}<span>${attribution(q)}</span></figcaption>`;
   const [featured, ...rest] = site.testimonials;
   const featuredHtml = `<figure class="quote-featured" data-reveal>
     <blockquote>${isTodo(featured.quote) ? t(featured.quote) : `${esc(featured.quote)}&rdquo;`}</blockquote>
-    <figcaption class="quote-attribution">${attribution(featured)}</figcaption>
+    ${byline(featured)}
   </figure>`;
   const restHtml = nonEmpty(rest)
     ? `<div class="quote-grid">${rest
         .map(
           (q) => `<figure class="quote-small" data-reveal>
       <blockquote>${quoted(q.quote)}</blockquote>
-      <figcaption>${attribution(q)}</figcaption>
+      ${byline(q)}
     </figure>`,
         )
         .join('')}</div>`
@@ -270,8 +348,9 @@ function about(site, manifest) {
 
 function pressKit(site, manifest) {
   const pk = site.press_kit ?? {};
-  const dlRow = (href, title, meta) => `<a class="dl-row" href="${esc(href)}" download>
-      <span class="dl-title">${title}</span>
+  const spacer = '<span class="press-thumb press-thumb-spacer" aria-hidden="true"></span>';
+  const dlRow = (href, title, meta, thumb = spacer) => `<a class="dl-row" href="${esc(href)}" download>
+      <span class="dl-left">${thumb}<span class="dl-title">${title}</span></span>
       <span class="dl-meta">${meta}<span class="dl-arrow" aria-hidden="true">&darr;</span></span>
     </a>`;
   const photoTitle = (m) => {
@@ -280,7 +359,14 @@ function pressKit(site, manifest) {
     return `Photo: ${label}`;
   };
   const photoRows = Object.values(manifest)
-    .map((m) => dlRow(m.press, esc(photoTitle(m)), 'JPEG'))
+    .map((m) =>
+      dlRow(
+        m.press,
+        esc(photoTitle(m)),
+        'JPEG',
+        `<img class="press-thumb" src="img/${m.slug}-${m.widths[0]}.jpg" alt="" width="56" height="56" loading="lazy">`,
+      ),
+    )
     .join('');
   const bios = [
     ['One line bio', 'one_line'],
@@ -513,9 +599,12 @@ ${header(site)}
 ${hero(site, manifest)}
 ${proof(site)}
 ${videoSection(site, manifest)}
+${gallery(site, manifest)}
+${highlights(site)}
 ${topics(site)}
 ${formats(site)}
-${testimonials(site)}
+${testimonials(site, manifest)}
+${faq(site)}
 ${about(site, manifest)}
 ${pressKit(site, manifest)}
 ${pressMentions(site)}

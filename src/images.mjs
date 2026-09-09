@@ -63,7 +63,8 @@ export async function buildImages({ photosDir, distDir, posterFile }) {
     }
 
     const pressBase = /^julia-krylova/.test(slug) ? titleCase(slug) : `Julia-Krylova-${titleCase(slug)}`;
-    const pressName = `${pressBase}-${PRESS_WIDTH}px.jpg`;
+    const pressW = Math.min(PRESS_WIDTH, width);
+    const pressName = `${pressBase}-${pressW}px.jpg`;
     await sharp(src)
       .rotate()
       .resize({ width: PRESS_WIDTH, withoutEnlargement: true })

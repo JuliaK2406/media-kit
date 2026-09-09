@@ -39,13 +39,50 @@ proof:
     - value: "170+"
       label: "leaders and entrepreneurs mentored since 2019"
   clients_label: "Selected clients"
-  clients: [KPMG, Oracle, Heineken, Avery Dennison]
+  clients: [Sony Masterworks, Oracle, Heineken, Avery Dennison]
 
 video:
   enabled: true
   file: "julia-krylova-speaker-film.mp4"
   poster: julia-krylova-on-stage.jpg
   caption: "Masterclass for the Entrepreneurs Circle, Amsterdam. Sixty seconds."
+
+gallery:
+  enabled: true
+  title: "In the room"
+  items:
+    - image: julia-krylova-on-stage.jpg
+      caption: "TODO: event name and year"
+    - image: julia-krylova-audience.jpg
+      caption: "TODO: event name and year"
+    - image: julia-krylova-book-launch.jpg
+      caption: "TODO: event name and year"
+    - image: film-still-01.jpg
+      caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
+    - image: film-still-02.jpg
+      caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
+    - image: film-still-03.jpg
+      caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
+
+highlights:
+  enabled: true
+  title: "Selected engagements"
+  items:
+    - event: "Masterclass for the Entrepreneurs Circle"
+      place: "Amsterdam"
+      year: "TODO: год"
+    - event: "TODO: событие"
+      place: "TODO: город"
+      year: "TODO: год"
+    - event: "TODO: событие"
+      place: "TODO: город"
+      year: "TODO: год"
+    - event: "TODO: событие"
+      place: "TODO: город"
+      year: "TODO: год"
+    - event: "TODO: событие"
+      place: "TODO: город"
+      year: "TODO: год"
 
 topics:
   - title: "Leadership Communication and Influence"
@@ -82,25 +119,43 @@ formats:
   av_notes: "A lavalier or headset microphone rather than a handheld, a screen or projector for slides, and a confidence monitor where the room allows one. Julia brings her own laptop and clicker, and asks for a thirty minute technical check before doors open."
 
 testimonials:
+  # photo: optional headshot filename in content/photos. Empty = a circle with initials
   - quote: "She kept the audience engaged and the energy high. Great delivery, great presence."
     name: "Karina Lührsen"
     role: "Program Manager EMEA"
     company: "Oracle"
+    photo: ""
 
   - quote: "The entire group was inspired and energized by her session and insights."
     name: "Olessya Loiko, Ph.D."
     role: "R&D Graphics Component Manager"
     company: "Avery Dennison"
+    photo: ""
 
   - quote: "The small adjustments we worked on had a much bigger impact than I expected."
     name: "Angela Weigend"
     role: "Customer Care Program Manager"
     company: "Heineken"
+    photo: ""
 
   - quote: "This work helped me become calmer, more outspoken, and more confident."
     name: "Dorottya Barsony"
     role: "Manager Creative Development"
     company: "GEAlive, Sony Masterworks"
+    photo: ""
+
+faq:
+  enabled: true
+  title: "Frequently asked questions"
+  items:
+    - q: "How far in advance should we book?"
+      a: "TODO: обычно от скольки недель, и берёте ли короткие сроки"
+    - q: "Do you travel outside the Netherlands?"
+      a: "TODO: география и условия по поездкам"
+    - q: "Can the talk be adapted to our theme?"
+      a: "TODO: насколько глубоко адаптируете и что для этого нужно"
+    - q: "May we record the session?"
+      a: "TODO: можно ли записывать и на каких условиях"
 
 about:
   photo: julia-krylova-headshot.jpg
