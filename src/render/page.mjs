@@ -359,6 +359,7 @@ function pressKit(site, manifest) {
     return `Photo: ${label}`;
   };
   const photoRows = Object.values(manifest)
+    .filter((m) => m.press)
     .map((m) =>
       dlRow(
         m.press,
@@ -598,8 +599,8 @@ ${header(site)}
 <div id="speaking">
 ${hero(site, manifest)}
 ${proof(site)}
-${videoSection(site, manifest)}
 ${gallery(site, manifest)}
+${videoSection(site, manifest)}
 ${highlights(site)}
 ${topics(site)}
 ${formats(site)}

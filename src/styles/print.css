@@ -106,6 +106,30 @@ h3 {
   break-inside: avoid;
 }
 
+/* Keep the tail compact so the footer lands on the same page as the contact */
+
+.bio-block {
+  padding-block: 12pt;
+}
+
+.contact {
+  padding-block: 8pt;
+}
+
+.contact .overline {
+  margin-bottom: 4pt;
+}
+
+.contact-big {
+  font-size: 15pt;
+  margin-bottom: 8pt;
+}
+
+.site-footer {
+  padding-block: 8pt;
+  break-inside: avoid;
+}
+
 h2,
 h3 {
   break-after: avoid;

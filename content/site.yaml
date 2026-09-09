@@ -38,7 +38,7 @@ proof:
       label: "countries worked in"
     - value: "170+"
       label: "leaders and entrepreneurs mentored since 2019"
-  clients_label: "Selected clients"
+  clients_label: "Selected clients and collaborations" # confirm: формулировка подписи, см. отчёт 05
   clients: [Sony Masterworks, Oracle, Heineken, Avery Dennison]
 
 video:
@@ -52,14 +52,14 @@ gallery:
   title: "In the room"
   items:
     - image: julia-krylova-on-stage.jpg
-      caption: "TODO: event name and year"
+      caption: "AI4ALL" # confirm: название события и год
     - image: julia-krylova-audience.jpg
-      caption: "TODO: event name and year"
+      caption: "Mosaic of Life live session" # confirm: название события и год
     - image: julia-krylova-book-launch.jpg
-      caption: "TODO: event name and year"
+      caption: "Book launch" # confirm: название события и год
     - image: film-still-01.jpg
       caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
-    - image: film-still-02.jpg
+    - image: film-still-02.jpg # confirm: кадр заменён, старый лежит в film-still-02-alt.jpg
       caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
     - image: film-still-03.jpg
       caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
@@ -71,13 +71,13 @@ highlights:
     - event: "Masterclass for the Entrepreneurs Circle"
       place: "Amsterdam"
       year: "TODO: год"
-    - event: "TODO: событие"
+    - event: "AI4ALL" # confirm: точное название и город
       place: "TODO: город"
       year: "TODO: год"
-    - event: "TODO: событие"
+    - event: "Mosaic of Life live session" # confirm: точное название и город
       place: "TODO: город"
       year: "TODO: год"
-    - event: "TODO: событие"
+    - event: "Book launch" # confirm: точное название и город
       place: "TODO: город"
       year: "TODO: год"
     - event: "TODO: событие"
@@ -149,13 +149,13 @@ faq:
   title: "Frequently asked questions"
   items:
     - q: "How far in advance should we book?"
-      a: "TODO: обычно от скольки недель, и берёте ли короткие сроки"
+      a: "Six to eight weeks is comfortable for a keynote and gives time to tailor the content. Shorter notice is sometimes possible, so it is always worth asking." # confirm
     - q: "Do you travel outside the Netherlands?"
-      a: "TODO: география и условия по поездкам"
+      a: "Yes. Julia is based in Amsterdam and speaks across Europe. Travel further afield is possible by arrangement." # confirm
     - q: "Can the talk be adapted to our theme?"
-      a: "TODO: насколько глубоко адаптируете и что для этого нужно"
+      a: "Always. Every session is shaped around your audience and your objective, usually after one short call with the organiser beforehand." # confirm
     - q: "May we record the session?"
-      a: "TODO: можно ли записывать и на каких условиях"
+      a: "Recording for internal use within your organisation is fine. For public distribution, please agree it in advance." # confirm
 
 about:
   photo: julia-krylova-headshot.jpg

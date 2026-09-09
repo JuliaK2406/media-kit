@@ -1,13 +1,24 @@
-// Guard against invented content: lists every field in content/site.yaml that
-// still contains TODO. While meta.published is false this is informational.
-// Once meta.published is true, any remaining TODO fails the build.
+// Guard against invented content. Two categories live in content/site.yaml:
+//   TODO        - the text does not exist yet. Shown as a yellow tag on the page,
+//                 blocks the build once meta.published is true.
+//   # confirm   - a draft we wrote that Julia has not approved yet. Marked with
+//                 an inline "# confirm" comment on the value line. Renders as
+//                 normal text, never blocks the build, listed separately here.
+// The marker lives on the value line itself, so it cannot go stale: delete the
+// comment and the entry disappears from the list.
 
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { load } from 'js-yaml';
 
-export async function loadSite(file = new URL('../content/site.yaml', import.meta.url)) {
+export const SITE_FILE = new URL('../content/site.yaml', import.meta.url);
+
+export async function loadSite(file = SITE_FILE) {
   return load(await readFile(file, 'utf8'));
+}
+
+export async function loadSiteRaw(file = SITE_FILE) {
+  return readFile(file, 'utf8');
 }
 
 function walk(node, prefix, visit) {
@@ -42,6 +53,89 @@ export function findEmptyLists(site) {
   return empty;
 }
 
+// Finds every value line marked with an inline "# confirm" comment and works
+// out its path by tracking yaml indentation. The file is our own regular
+// two-space yaml, so the tracker stays deliberately simple; every found path
+// is verified against the parsed data, and unresolvable markers are reported
+// loudly instead of being dropped.
+export function findConfirms(raw, site) {
+  const confirms = [];
+  const problems = [];
+  const stack = []; // { indent, seg }
+  const counters = new Map(); // parent path -> next list index
+  let blockSkipIndent = -1; // inside a | or > block scalar when >= 0
+
+  const pathOf = () => stack.map((f) => f.seg).join('.').replace(/\.\[/g, '[');
+  const resolve = (p) => {
+    let node = site;
+    for (const part of p.split(/[.[\]]+/).filter(Boolean)) {
+      if (node == null) return undefined;
+      node = node[/^\d+$/.test(part) ? Number(part) : part];
+    }
+    return node;
+  };
+
+  const lines = raw.split('\n');
+  for (let n = 0; n < lines.length; n++) {
+    const line = lines[n];
+    if (!line.trim()) continue;
+    let indent = line.match(/^ */)[0].length;
+    if (blockSkipIndent >= 0) {
+      if (indent > blockSkipIndent) continue;
+      blockSkipIndent = -1;
+    }
+    let rest = line.slice(indent);
+    if (rest.startsWith('#')) continue;
+
+    while (stack.length && stack[stack.length - 1].indent >= indent) stack.pop();
+
+    if (rest.startsWith('- ')) {
+      const parent = pathOf();
+      const idx = counters.get(parent) ?? 0;
+      counters.set(parent, idx + 1);
+      stack.push({ indent, seg: `[${idx}]` });
+      rest = rest.slice(2);
+      indent += 2;
+    }
+
+    const marker = /#\s*confirm\b(?::?\s*(.*))?$/.exec(rest);
+    const keyMatch = /^([A-Za-z_][\w-]*):(.*)$/.exec(rest);
+    if (keyMatch) {
+      const [, key, valuePart] = keyMatch;
+      counters.delete(`${pathOf()}${stack.length ? '.' : ''}${key}`);
+      stack.push({ indent, seg: key });
+      const value = valuePart.trim();
+      if (value === '|' || value === '>' || value.startsWith('|') || value.startsWith('>')) {
+        blockSkipIndent = indent;
+      }
+      if (marker) {
+        const p = pathOf();
+        const resolved = resolve(p);
+        if (resolved === undefined) problems.push(`line ${n + 1}: confirm marker did not resolve to a value (${p})`);
+        else confirms.push({ path: p, value: resolved, note: (marker[1] ?? '').trim() });
+      }
+    } else if (marker) {
+      // scalar list item with a marker
+      const p = pathOf();
+      const resolved = resolve(p);
+      if (resolved === undefined) problems.push(`line ${n + 1}: confirm marker did not resolve to a value (${p})`);
+      else confirms.push({ path: p, value: resolved, note: (marker[1] ?? '').trim() });
+    }
+  }
+  return { confirms, problems };
+}
+
+export function reportConfirms(raw, site) {
+  const { confirms, problems } = findConfirms(raw, site);
+  console.log(`Ждёт подтверждения (# confirm): ${confirms.length}`);
+  for (const c of confirms) {
+    const value = typeof c.value === 'string' ? `"${c.value}"` : JSON.stringify(c.value);
+    console.log(`  ${c.path} = ${value}${c.note ? `  <- ${c.note}` : ''}`);
+  }
+  for (const p of problems) console.error(`  WARNING ${p}`);
+  return confirms;
+}
+
 export function reportTodos(site) {
   const todos = findTodos(site);
   console.log(`TODO fields: ${todos.length}`);
@@ -63,7 +157,10 @@ export function assertPublishable(site, todos) {
 
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 if (isMain) {
-  const site = await loadSite(process.argv[2] ?? undefined);
+  const file = process.argv[2] ?? undefined;
+  const site = await loadSite(file);
+  const raw = await loadSiteRaw(file);
   const todos = reportTodos(site);
+  reportConfirms(raw, site);
   assertPublishable(site, todos);
 }

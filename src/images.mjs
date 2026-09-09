@@ -62,16 +62,23 @@ export async function buildImages({ photosDir, distDir, posterFile }) {
       await sharp(src).rotate().resize({ width: w }).jpeg({ quality: PAGE_QUALITY, mozjpeg: true }).toFile(path.join(imgDir, `${slug}-${w}.jpg`));
     }
 
-    const pressBase = /^julia-krylova/.test(slug) ? titleCase(slug) : `Julia-Krylova-${titleCase(slug)}`;
-    const pressW = Math.min(PRESS_WIDTH, width);
-    const pressName = `${pressBase}-${pressW}px.jpg`;
-    await sharp(src)
-      .rotate()
-      .resize({ width: PRESS_WIDTH, withoutEnlargement: true })
-      .jpeg({ quality: PRESS_QUALITY, mozjpeg: true })
-      .toFile(path.join(pressDir, pressName));
+    // Film stills feed the gallery only. The downloadable press kit stays
+    // professional photography, so no press derivative for them.
+    const isFilmStill = /^film-still/.test(slug);
+    let pressFields = {};
+    if (!isFilmStill) {
+      const pressBase = /^julia-krylova/.test(slug) ? titleCase(slug) : `Julia-Krylova-${titleCase(slug)}`;
+      const pressW = Math.min(PRESS_WIDTH, width);
+      const pressName = `${pressBase}-${pressW}px.jpg`;
+      await sharp(src)
+        .rotate()
+        .resize({ width: PRESS_WIDTH, withoutEnlargement: true })
+        .jpeg({ quality: PRESS_QUALITY, mozjpeg: true })
+        .toFile(path.join(pressDir, pressName));
+      pressFields = { press: `press/${pressName}`, pressName };
+    }
 
-    manifest[file] = { slug, widths, width, height, press: `press/${pressName}`, pressName };
+    manifest[file] = { slug, widths, width, height, ...pressFields };
 
     // The video poster gets its own 16:9 crop so the frame fills the player
     // with no bars. "attention" centers the crop on the busiest region (the face).
@@ -88,7 +95,7 @@ export async function buildImages({ photosDir, distDir, posterFile }) {
       console.log(`images: ${file} -> ${posterName} (16:9 poster)`);
     }
 
-    console.log(`images: ${file} -> ${widths.map((w) => w + 'px').join(', ')} + press/${pressName}`);
+    console.log(`images: ${file} -> ${widths.map((w) => w + 'px').join(', ')}${pressFields.press ? ` + ${pressFields.press}` : ' (no press file)'}`);
   }
   return manifest;
 }

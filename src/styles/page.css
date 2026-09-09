@@ -376,8 +376,8 @@ a:hover {
   background: var(--aubergine);
   color: var(--porcelain);
   padding-block: clamp(3rem, 5vw, 5rem);
-  /* full step: this margin collapses with the video field's own margin */
-  margin-bottom: var(--section-gap);
+  /* the light gallery section follows, half a step from each side makes a full one */
+  margin-bottom: calc(var(--section-gap) / 2);
 }
 
 .stats {
@@ -947,7 +947,6 @@ a:hover {
 .bio-head h3 {
   margin: 0;
   font-weight: 500;
-  color: var(--aubergine);
 }
 
 .bio-block p {

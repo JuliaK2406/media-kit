@@ -3,7 +3,7 @@
 import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadSite, reportTodos, assertPublishable } from './check.mjs';
+import { loadSite, loadSiteRaw, reportTodos, reportConfirms, assertPublishable } from './check.mjs';
 import { buildImages } from './images.mjs';
 import { renderPage } from './render/page.mjs';
 import { buildPdfs } from '../scripts/pdf.mjs';
@@ -13,6 +13,7 @@ const distDir = path.join(root, 'dist');
 
 const site = await loadSite();
 const todos = reportTodos(site);
+reportConfirms(await loadSiteRaw(), site);
 assertPublishable(site, todos);
 const published = site?.meta?.published === true;
 
