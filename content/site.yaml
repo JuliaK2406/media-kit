@@ -66,12 +66,12 @@ gallery:
       caption: "Mosaic of Life live session"
     - image: julia-krylova-book-launch.jpg
       caption: "Book launch"
-    - image: film-still-01.jpg # confirm: первый файл из письма 17.09 не скачался (404), оставлен прежний кадр
-      caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
+    - image: gallery-event-02.jpg
+      caption: "Leadership session"
     - image: gallery-event-01.jpg
       caption: "AI4ALL Women Mentor Program"
-    - image: film-still-03.jpg # confirm: третий файл из письма 17.09 не скачался (404), оставлен прежний кадр
-      caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
+    - image: gallery-event-03.jpg
+      caption: "Women in Leadership event, Amsterdam, 2024"
 
 highlights:
   enabled: true
