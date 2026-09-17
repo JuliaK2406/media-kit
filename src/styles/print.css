@@ -182,6 +182,14 @@ h3 {
   aspect-ratio: 4 / 5;
   object-fit: cover;
   break-inside: avoid;
+  /* the arch stays a screen treatment, print keeps plain rectangles */
+  border-radius: 0 !important;
+  outline: none !important;
+}
+
+.photos-arch .hero-media,
+.photos-arch .about-media {
+  padding: 0 !important;
 }
 
 a {

@@ -95,9 +95,20 @@ function hero(site, manifest) {
       sizes: '(min-width: 900px) 48vw, 100vw',
     })}</div>
     <div class="hero-copy">
-      <h1>${t(h.headline)}</h1>
+      <h1 class="hero-credentials">${
+        isTodo(h.headline)
+          ? t(h.headline)
+          : String(h.headline ?? '')
+              .split('|')
+              // non-breaking hyphen keeps "ex-Sony" on one line, display only
+              .map((part) => esc(part.trim()).replace(/ex-/gi, (m) => m[0] + m[1] + '‑'))
+              .join('<span class="hero-sep" aria-hidden="true">|</span>')
+      }</h1>
       <p class="subhead">${t(h.subhead)}</p>
-      <p class="hero-cta">${ctaButton(site)}</p>
+      <div class="hero-actions">
+        ${ctaButton(site)}
+        ${site.cta?.book_call_url ? `<a class="btn btn-secondary" href="${esc(site.cta.book_call_url)}">${esc(site.cta.book_call_label ?? 'Book a call')}</a>` : ''}
+      </div>
       <p class="meta-line">${metaLine}</p>
     </div>
   </div>
@@ -225,13 +236,21 @@ function faq(site) {
 
 function topics(site) {
   if (!nonEmpty(site.topics)) return '';
+  const paragraphs = (text, cls = '') =>
+    String(text ?? '')
+      .split(/\n{2,}/)
+      .filter((p) => p.trim())
+      .map((p) => `<p${cls ? ` class="${cls}"` : ''}>${t(p.trim())}</p>`)
+      .join('');
+  const section = site.topics_section ?? {};
+  const intro = section.intro ? `<div class="topics-intro" data-reveal>${paragraphs(section.intro)}</div>` : '';
   const items = site.topics
     .map(
       (tp, i) => `<li class="topic" data-reveal>
       <div class="topic-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</div>
       <div class="topic-body">
         <h3>${t(tp.title)}</h3>
-        <p class="topic-summary">${t(tp.summary)}</p>
+        <div class="topic-summary">${paragraphs(tp.summary)}</div>
         ${
           nonEmpty(tp.takeaways)
             ? `<p class="takeaways-label">What the audience takes away</p>
@@ -249,7 +268,8 @@ function topics(site) {
       : '';
   return `<section id="topics" class="section topics">
   <div class="container">
-    <h2>Speaking topics</h2>
+    <h2>${t(section.title ?? 'Speaking topics')}</h2>
+    ${intro}
     <ol class="topic-list">${items}</ol>
     ${ctaLine}
   </div>
@@ -388,12 +408,7 @@ function pressKit(site, manifest) {
       ),
     )
     .join('');
-  const bios = [
-    ['One line bio', 'one_line'],
-    ['Short bio (about 50 words)', 'short_50'],
-    ['Medium bio (about 150 words)', 'medium_150'],
-    ['Long bio (about 300 words)', 'long_300'],
-  ];
+  const bios = [['Bio', 'main']];
   const bioParagraphs = (value) =>
     String(value ?? '')
       .split(/\n{2,}/)
@@ -618,7 +633,7 @@ ${ogImgUrl ? `<meta property="og:image" content="${esc(ogImgUrl)}">\n<meta name=
 <link rel="stylesheet" href="styles/page.css">
 <link rel="stylesheet" href="styles/print.css" media="print">
 </head>
-<body id="top">
+<body id="top"${site.photo_shape === 'arch' ? ' class="photos-arch"' : ''}>
 <div id="top-sentinel" aria-hidden="true"></div>
 <a class="skip-link" href="#speaking">Skip to content</a>
 ${header(site)}

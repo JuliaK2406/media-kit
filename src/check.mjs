@@ -104,7 +104,8 @@ export function findConfirms(raw, site) {
       const [, key, valuePart] = keyMatch;
       counters.delete(`${pathOf()}${stack.length ? '.' : ''}${key}`);
       stack.push({ indent, seg: key });
-      const value = valuePart.trim();
+      // an anchor (&name) may precede a block scalar marker
+      const value = valuePart.trim().replace(/^&\S+\s*/, '');
       if (value === '|' || value === '>' || value.startsWith('|') || value.startsWith('>')) {
         blockSkipIndent = indent;
       }

@@ -324,13 +324,25 @@ a:hover {
   padding-block: clamp(2.5rem, 6vw, 4rem) 0;
 }
 
-.hero h1 {
-  font-size: var(--hero-size);
+/* Credentials line instead of a display headline: tracked caps, gold separators */
+
+.hero .hero-credentials {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 0.85rem + 0.8vw, 1.3rem);
   font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-  margin: 0 0 var(--s-5);
-  max-width: 14em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.6;
+  color: var(--navy);
+  margin: 0 0 var(--s-4);
+  max-width: 30em;
+  text-wrap: balance;
+}
+
+.hero-sep {
+  color: var(--gold);
+  font-weight: 400;
+  margin: 0 0.55em;
 }
 
 .hero .subhead {
@@ -340,7 +352,10 @@ a:hover {
   margin-bottom: var(--s-6);
 }
 
-.hero-cta {
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
   margin-bottom: var(--s-5);
 }
 
@@ -378,6 +393,33 @@ a:hover {
     height: 100%;
     aspect-ratio: auto;
   }
+}
+
+/* Arch portraits: rounded top edge plus an offset gold keyline.
+   Toggled by photo_shape: arch in site.yaml (body.photos-arch). */
+
+.photos-arch .hero-media {
+  padding: var(--s-5) var(--page-pad) var(--s-4);
+}
+
+.photos-arch .about-media {
+  padding: var(--s-4) var(--page-pad);
+}
+
+@media (min-width: 900px) {
+  .photos-arch .hero-media {
+    padding: clamp(2rem, 4vh, 3rem) clamp(20px, 3vw, 48px) var(--s-5) 0;
+  }
+  .photos-arch .about-media {
+    padding: var(--s-4) 0 var(--s-4) clamp(20px, 3vw, 48px);
+  }
+}
+
+.photos-arch .hero-media img,
+.photos-arch .about-media img {
+  border-radius: 999px 999px var(--radius) var(--radius);
+  outline: 1px solid var(--gold);
+  outline-offset: 12px;
 }
 
 /* Stats and clients: a full width aubergine field, gold hairlines, porcelain text */
@@ -570,6 +612,11 @@ a:hover {
   color: var(--navy-muted);
   margin: 0;
   max-width: none;
+}
+
+.topics-intro {
+  max-width: var(--measure);
+  margin-bottom: var(--s-6);
 }
 
 /* Exit points under sections */
