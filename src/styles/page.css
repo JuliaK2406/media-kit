@@ -183,6 +183,16 @@ a:hover {
   padding: 0.55rem 1.1rem;
 }
 
+/* Secondary exit points: same shape, quieter hairline outline */
+
+.btn-secondary {
+  border-color: var(--warm-grey);
+}
+
+.btn-secondary:hover {
+  background: rgba(30, 42, 71, 0.05);
+}
+
 /* TODO placeholder: the yellow tag for unfinished yaml fields */
 
 .todo {
@@ -562,6 +572,28 @@ a:hover {
   max-width: none;
 }
 
+/* Exit points under sections */
+
+.topics-cta {
+  margin: var(--s-6) 0 0;
+  max-width: none;
+}
+
+.topics-cta a {
+  color: var(--navy);
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 0.1em;
+}
+
+.topics-cta a:hover {
+  color: var(--aubergine);
+}
+
+.section-cta {
+  margin: var(--s-6) 0 0;
+  max-width: none;
+}
+
 /* Formats and logistics: label left, value right */
 
 .fact-rows {
@@ -897,8 +929,8 @@ a:hover {
   border-radius: var(--radius);
 }
 
-.press-thumb-spacer {
-  display: inline-block;
+.press-pdf-icon {
+  display: block;
 }
 
 .dl-row .dl-title {
@@ -994,22 +1026,11 @@ a:hover {
   margin-bottom: var(--s-5);
 }
 
-.contact-big {
-  font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 1rem + 2.5vw, 2.5rem);
-  font-weight: 500;
-  margin: 0 auto var(--s-6);
-  max-width: none;
-}
-
-.contact-big a {
-  color: var(--navy);
-  border-bottom: 1px solid var(--gold);
-  padding-bottom: 0.08em;
-}
-
-.contact-big a:hover {
-  color: var(--aubergine);
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+  justify-content: center;
 }
 
 /* Footer */

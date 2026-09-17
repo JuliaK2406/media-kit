@@ -173,7 +173,6 @@ function gallery(site, manifest) {
       const alt = isTodo(it.caption) || !it.caption ? `Event photo: ${site.person?.name ?? ''}` : it.caption;
       return `<figure class="gallery-item" data-reveal>
       ${picture(manifest, it.image, { alt, sizes: '(min-width: 900px) 33vw, (min-width: 700px) 50vw, 100vw' })}
-      <figcaption>${t(it.caption)}</figcaption>
     </figure>`;
     })
     .join('');
@@ -219,6 +218,7 @@ function faq(site) {
   <div class="container">
     <h2>${t(f.title)}</h2>
     <div class="faq-list">${rows}</div>
+    ${sectionCta(site, site.cta?.faq_label)}
   </div>
 </section>`;
 }
@@ -243,12 +243,24 @@ function topics(site) {
     </li>`,
     )
     .join('');
+  const ctaLine =
+    site.cta?.topics_line && site.person?.email_speaking && !isTodo(site.person.email_speaking)
+      ? `<p class="topics-cta"><a href="${esc(mailto(site.person.email_speaking, site.person.name))}">${t(site.cta.topics_line)}</a></p>`
+      : '';
   return `<section id="topics" class="section topics">
   <div class="container">
     <h2>Speaking topics</h2>
     <ol class="topic-list">${items}</ol>
+    ${ctaLine}
   </div>
 </section>`;
+}
+
+// secondary exit point button used under Testimonials and FAQ
+function sectionCta(site, label) {
+  const email = site.person?.email_speaking;
+  if (!label || !email || isTodo(email)) return '';
+  return `<p class="section-cta"><a class="btn btn-secondary" href="${esc(mailto(email, site.person.name))}">${esc(label)}</a></p>`;
 }
 
 function formats(site) {
@@ -320,6 +332,7 @@ function testimonials(site, manifest) {
     <h2>Testimonials</h2>
     ${featuredHtml}
     ${restHtml}
+    ${sectionCta(site, site.cta?.testimonials_label)}
   </div>
 </section>`;
 }
@@ -348,8 +361,14 @@ function about(site, manifest) {
 
 function pressKit(site, manifest) {
   const pk = site.press_kit ?? {};
-  const spacer = '<span class="press-thumb press-thumb-spacer" aria-hidden="true"></span>';
-  const dlRow = (href, title, meta, thumb = spacer) => `<a class="dl-row" href="${esc(href)}" download>
+  // Recognisable PDF file symbol, drawn inline: rounded sheet, folded corner,
+  // red outline, PDF label. Same box as the photo thumbnails so rows align.
+  const pdfIcon = `<svg class="press-thumb press-pdf-icon" viewBox="0 0 56 56" aria-hidden="true" role="img">
+      <path d="M15 7.5 H33 L43 17.5 V46 a2.5 2.5 0 0 1 -2.5 2.5 H15 a2.5 2.5 0 0 1 -2.5 -2.5 V10 a2.5 2.5 0 0 1 2.5 -2.5 Z" fill="none" stroke="#C5221F" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M33 7.5 V15 a2.5 2.5 0 0 0 2.5 2.5 H43" fill="none" stroke="#C5221F" stroke-width="2.5" stroke-linejoin="round"/>
+      <text x="28" y="38" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#C5221F">PDF</text>
+    </svg>`;
+  const dlRow = (href, title, meta, thumb = pdfIcon) => `<a class="dl-row" href="${esc(href)}" download>
       <span class="dl-left">${thumb}<span class="dl-title">${title}</span></span>
       <span class="dl-meta">${meta}<span class="dl-arrow" aria-hidden="true">&darr;</span></span>
     </a>`;
@@ -472,10 +491,9 @@ function podcast(site) {
 function contact(site) {
   const p = site.person ?? {};
   const email = p.email_speaking;
-  const emailLine =
-    !email || isTodo(email)
-      ? `<p class="contact-big"><span class="todo">TODO: person.email_speaking</span></p>`
-      : `<p class="contact-big"><a href="${esc(mailto(email, p.name))}">${esc(email)}</a></p>`;
+  const bookUrl = site.cta?.book_call_url ?? '';
+  const bookLabel = site.cta?.book_call_label ?? 'Book a call';
+  const bookBtn = bookUrl ? `<a class="btn btn-secondary" href="${esc(bookUrl)}">${esc(bookLabel)}</a>` : '';
   const podcastLine =
     site.podcast?.enabled === true && p.email_podcast && p.email_podcast !== p.email_speaking
       ? `<p class="overline">Podcast enquiries: ${
@@ -484,12 +502,21 @@ function contact(site) {
             : `<a href="mailto:${esc(p.email_podcast)}">${esc(p.email_podcast)}</a>`
         }</p>`
       : '';
+  // The visible email line left the page by the client's request, but both PDFs
+  // must keep working offline, so print gets the address and the Calendly link.
+  const printBlock = `<div class="print-only contact-print">
+      ${!email || isTodo(email) ? `<p><span class="todo">TODO: person.email_speaking</span></p>` : `<p>Speaking enquiries: ${esc(email)}</p>`}
+      ${bookUrl ? `<p>Book a call: ${esc(bookUrl.replace(/^https?:\/\//, ''))}</p>` : ''}
+    </div>`;
   return `<section id="contact" class="contact">
   <div class="container" data-reveal>
     <h2 class="overline">Contact</h2>
-    ${emailLine}
-    <p>${ctaButton(site)}</p>
+    <div class="contact-actions">
+      ${ctaButton(site)}
+      ${bookBtn}
+    </div>
     ${podcastLine}
+    ${printBlock}
   </div>
 </section>`;
 }
@@ -599,14 +626,14 @@ ${header(site)}
 <div id="speaking">
 ${hero(site, manifest)}
 ${proof(site)}
+${topics(site)}
 ${gallery(site, manifest)}
 ${videoSection(site, manifest)}
-${highlights(site)}
-${topics(site)}
-${formats(site)}
 ${testimonials(site, manifest)}
-${faq(site)}
 ${about(site, manifest)}
+${formats(site)}
+${highlights(site)}
+${faq(site)}
 ${pressKit(site, manifest)}
 ${pressMentions(site)}
 </div>

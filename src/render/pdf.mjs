@@ -72,6 +72,7 @@ ${quote ? `<section><h2>Testimonial</h2>${quote}</section>` : ''}
 <section class="os-contact">
   <h2>Contact</h2>
   <p>Speaking enquiries: ${emailHtml}</p>
+  ${site.cta?.book_call_url ? `<p>Book a call: ${esc(String(site.cta.book_call_url).replace(/^https?:\/\//, ''))}</p>` : ''}
   ${siteLabel ? `<p>Media kit and photos: ${esc(siteLabel)}</p>` : ''}
 </section>
 </body>

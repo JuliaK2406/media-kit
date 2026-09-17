@@ -28,6 +28,14 @@ hero:
   subhead: "Twenty-five years producing shows at Royal Albert Hall and Arena di Verona taught me exactly how presence is built. I now teach it to leaders, in keynotes and workshops across Europe."
   cta_label: "Check my availability"
 
+# Exit points across the page. All mailto buttons reuse person.email_speaking
+cta:
+  topics_line: "Not sure this topic fits your event? Check my availability"
+  testimonials_label: "Check my availability" # confirm: текст кнопки не от заказчицы
+  faq_label: "Check my availability" # confirm: текст кнопки не от заказчицы
+  book_call_label: "Book a call"
+  book_call_url: https://calendly.com/juliakrylova/30min
+
 proof:
   stats:
     - value: "25"
@@ -38,7 +46,7 @@ proof:
       label: "countries worked in"
     - value: "170+"
       label: "leaders and entrepreneurs mentored since 2019"
-  clients_label: "Selected clients and collaborations" # confirm: формулировка подписи, см. отчёт 05
+  clients_label: "Selected clients and collaborations"
   clients: [Sony Masterworks, Oracle, Heineken, Avery Dennison]
 
 video:
@@ -50,18 +58,19 @@ video:
 gallery:
   enabled: true
   title: "In the room"
+  # captions are not shown on the page, they only feed the image alt text
   items:
     - image: julia-krylova-on-stage.jpg
-      caption: "AI4ALL" # confirm: название события и год
+      caption: "AI4ALL"
     - image: julia-krylova-audience.jpg
-      caption: "Mosaic of Life live session" # confirm: название события и год
+      caption: "Mosaic of Life live session"
     - image: julia-krylova-book-launch.jpg
-      caption: "Book launch" # confirm: название события и год
-    - image: film-still-01.jpg
+      caption: "Book launch"
+    - image: film-still-01.jpg # confirm: первый файл из письма 17.09 не скачался (404), оставлен прежний кадр
       caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
-    - image: film-still-02.jpg # confirm: кадр заменён, старый лежит в film-still-02-alt.jpg
-      caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
-    - image: film-still-03.jpg
+    - image: gallery-event-01.jpg
+      caption: "AI4ALL Women Mentor Program"
+    - image: film-still-03.jpg # confirm: третий файл из письма 17.09 не скачался (404), оставлен прежний кадр
       caption: "Masterclass for the Entrepreneurs Circle, Amsterdam"
 
 highlights:
@@ -104,7 +113,7 @@ topics:
     formats: ["Keynote 45 min", "Interactive workshop 2 to 3 h", "Half-day training"]
 
   - title: "Mosaic of Life: How Ambitious Leaders Build Sustainable Success"
-    summary: "Ambitious people are told to find balance, which usually means doing less of what they care about. Mosaic of Life offers a different frame: energy, time, relationships, career and visibility as pieces that have to fit together rather than compete. It is the method Julia has built with more than 170 leaders since 2019."
+    summary: "Ambitious people are told to find balance, which usually means doing less of what they care about. Mosaic of Life offers a different frame: energy, time, relationships, career and visibility as pieces that have to fit together rather than compete. It is the method I have built with more than 170 leaders since 2019."
     takeaways:
       - "Why balance is the wrong target, and what to aim at instead"
       - "How to see which part of your life is draining the others"
@@ -116,7 +125,7 @@ formats:
   delivery: [Keynote, Interactive workshop, Panel, Fireside chat]
   settings: [In person, Virtual]
   languages: [English, Russian]
-  av_notes: "A lavalier or headset microphone rather than a handheld, a screen or projector for slides, and a confidence monitor where the room allows one. Julia brings her own laptop and clicker, and asks for a thirty minute technical check before doors open."
+  av_notes: "A lavalier or headset microphone rather than a handheld, a screen or projector for slides, and a confidence monitor where the room allows one. I bring my own laptop and clicker, and ask for a thirty minute technical check before doors open."
 
 testimonials:
   # photo: optional headshot filename in content/photos. Empty = a circle with initials
@@ -149,50 +158,52 @@ faq:
   title: "Frequently asked questions"
   items:
     - q: "How far in advance should we book?"
-      a: "Six to eight weeks is comfortable for a keynote and gives time to tailor the content. Shorter notice is sometimes possible, so it is always worth asking." # confirm
+      a: "Six to eight weeks is comfortable for a keynote or workshop, and gives me time to tailor the content. Shorter notice is sometimes possible, so it's always worth asking."
     - q: "Do you travel outside the Netherlands?"
-      a: "Yes. Julia is based in Amsterdam and speaks across Europe. Travel further afield is possible by arrangement." # confirm
+      a: "Yes. I'm based in Amsterdam and travel in person across Europe. Travel further afield is possible by arrangement."
+    - q: "Are you available for online engagements?"
+      a: "Yes for workshops: I'm very comfortable delivering these online. For keynotes, it depends on the length and format required, so it's worth discussing on a call."
     - q: "Can the talk be adapted to our theme?"
-      a: "Always. Every session is shaped around your audience and your objective, usually after one short call with the organiser beforehand." # confirm
+      a: "Yes. Every session can be shaped around your audience and objectives, worked out on a call beforehand."
     - q: "May we record the session?"
-      a: "Recording for internal use within your organisation is fine. For public distribution, please agree it in advance." # confirm
+      a: "Recording for internal use within your organisation is fine. For public distribution, please ask in advance."
 
 about:
   photo: julia-krylova-headshot.jpg
   bio_long: |
-    Julia Krylova spent twenty-five years making sure other people looked ready when the lights came up.
+    I spent twenty-five years making sure other people looked ready when the lights came up.
 
-    As an executive and creative producer she delivered more than sixty large-scale international productions across thirty-five countries, leading teams of up to two hundred and fifty people. The work ran from Royal Albert Hall to Arena di Verona, with Sony, Disney, Netflix, Paramount and the European Space Agency, and on projects alongside artists including Ennio Morricone. Live production leaves no room for the idea that presence is something you are born with. A performer either holds the room or does not, and the difference is almost always craft: how the message is built, how the voice carries it, where the attention goes, what happens in the pause.
+    As an executive and creative producer I delivered more than sixty large-scale international productions across thirty-five countries, leading teams of up to two hundred and fifty people. The work ran from Royal Albert Hall to Arena di Verona, with Sony, Disney, Netflix, Paramount and the European Space Agency, and on projects alongside artists including Ennio Morricone. Live production leaves no room for the idea that presence is something you are born with. A performer either holds the room or does not, and the difference is almost always craft: how the message is built, how the voice carries it, where the attention goes, what happens in the pause.
 
-    She now teaches that craft to leaders. Since 2019 she has worked with executives and entrepreneurs through keynotes, corporate workshops and her own mentoring method, Mosaic of Life, which more than one hundred and seventy people have gone through. Her corporate work includes sessions for KPMG, Oracle, Heineken and Avery Dennison, usually on executive presence, leadership communication and the kind of visibility that does not cost more hours than it returns.
+    I now teach that craft to leaders. Since 2019 I have worked with executives and entrepreneurs through keynotes, corporate workshops and my own mentoring method, Mosaic of Life, which more than one hundred and seventy people have gone through. My corporate work includes sessions for KPMG, Oracle, Heineken and Avery Dennison, usually on executive presence, leadership communication and the kind of visibility that does not cost more hours than it returns.
 
-    Her subject is the gap between having something worth saying and being heard saying it. Senior people rarely lack substance. They over-explain, soften the ask, and lose the room before they arrive at the point. Julia takes that apart into components that can be rehearsed, and gives people something to practise on Monday rather than something to feel inspired about on Friday.
+    My subject is the gap between having something worth saying and being heard saying it. Senior people rarely lack substance. They over-explain, soften the ask, and lose the room before they arrive at the point. I take that apart into components that can be rehearsed, and give people something to practise on Monday rather than something to feel inspired about on Friday.
 
-    She is the author of the Mosaic of Life method and book, founder of Mastermind Society, and is based in Amsterdam. She works internationally and speaks in English and Russian.
+    I am the author of the Mosaic of Life method and book, founder of Mastermind Society, and am based in Amsterdam. I work internationally and speak in English and Russian.
 
 press_kit:
   bios:
-    one_line: "Julia Krylova teaches executive presence and leadership communication, drawing on twenty-five years producing international live productions."
-    short_50: "Julia Krylova is a keynote speaker on executive presence and leadership communication. Before moving to the stage herself she spent twenty-five years as an executive producer of international live productions, delivering more than sixty shows in thirty-five countries for Sony, Disney, Netflix and Paramount. She is based in Amsterdam and speaks in English and Russian."
+    one_line: "I teach executive presence and leadership communication, drawing on twenty-five years producing international live productions."
+    short_50: "I am a keynote speaker on executive presence and leadership communication. Before moving to the stage myself I spent twenty-five years as an executive producer of international live productions, delivering more than sixty shows in thirty-five countries for Sony, Disney, Netflix and Paramount. I am based in Amsterdam and speak in English and Russian."
     medium_150: |
-      Julia Krylova helps leaders communicate with authority and hold a room under pressure.
+      I help leaders communicate with authority and hold a room under pressure.
 
-      For twenty-five years she worked as an executive and creative producer of international live productions, delivering more than sixty large-scale shows in thirty-five countries and leading teams of up to two hundred and fifty people. Her work took her from Royal Albert Hall to Arena di Verona, with Sony, Disney, Netflix, Paramount and the European Space Agency, and on projects with artists including Ennio Morricone.
+      For twenty-five years I worked as an executive and creative producer of international live productions, delivering more than sixty large-scale shows in thirty-five countries and leading teams of up to two hundred and fifty people. My work took me from Royal Albert Hall to Arena di Verona, with Sony, Disney, Netflix, Paramount and the European Space Agency, and on projects with artists including Ennio Morricone.
 
-      That career taught her that presence is not a personality trait but a craft: message structure, voice, timing and attention, all of which can be rehearsed. Since 2019 she has taught it directly, through keynotes, corporate workshops and her own mentoring method, Mosaic of Life, which more than one hundred and seventy entrepreneurs and leaders have gone through.
+      That career taught me that presence is not a personality trait but a craft: message structure, voice, timing and attention, all of which can be rehearsed. Since 2019 I have taught it directly, through keynotes, corporate workshops and my own mentoring method, Mosaic of Life, which more than one hundred and seventy entrepreneurs and leaders have gone through.
 
-      She is based in Amsterdam, works internationally, and speaks in English and Russian.
+      I am based in Amsterdam, work internationally, and speak in English and Russian.
     long_300: |
-      Julia Krylova spent twenty-five years making sure other people looked ready when the lights came up.
+      I spent twenty-five years making sure other people looked ready when the lights came up.
 
-      As an executive and creative producer she delivered more than sixty large-scale international productions across thirty-five countries, leading teams of up to two hundred and fifty people. The work ran from Royal Albert Hall to Arena di Verona, with Sony, Disney, Netflix, Paramount and the European Space Agency, and on projects alongside artists including Ennio Morricone. Live production leaves no room for the idea that presence is something you are born with. A performer either holds the room or does not, and the difference is almost always craft.
+      As an executive and creative producer I delivered more than sixty large-scale international productions across thirty-five countries, leading teams of up to two hundred and fifty people. The work ran from Royal Albert Hall to Arena di Verona, with Sony, Disney, Netflix, Paramount and the European Space Agency, and on projects alongside artists including Ennio Morricone. Live production leaves no room for the idea that presence is something you are born with. A performer either holds the room or does not, and the difference is almost always craft.
 
-      She now teaches that craft to leaders. Since 2019 she has worked with executives and entrepreneurs through keynotes, corporate workshops and her own mentoring method, Mosaic of Life, which more than one hundred and seventy people have gone through. Her corporate work includes sessions for KPMG, Oracle, Heineken and Avery Dennison, usually on executive presence, leadership communication and the kind of visibility that does not cost more hours than it returns.
+      I now teach that craft to leaders. Since 2019 I have worked with executives and entrepreneurs through keynotes, corporate workshops and my own mentoring method, Mosaic of Life, which more than one hundred and seventy people have gone through. My corporate work includes sessions for KPMG, Oracle, Heineken and Avery Dennison, usually on executive presence, leadership communication and the kind of visibility that does not cost more hours than it returns.
 
-      Her subject is the gap between having something worth saying and being heard saying it. Senior people rarely lack substance. They over-explain, soften the ask, and lose the room before they arrive at the point. Julia takes that apart into components that can be rehearsed, and gives people something to practise on Monday rather than something to feel inspired about on Friday.
+      My subject is the gap between having something worth saying and being heard saying it. Senior people rarely lack substance. They over-explain, soften the ask, and lose the room before they arrive at the point. I take that apart into components that can be rehearsed, and give people something to practise on Monday rather than something to feel inspired about on Friday.
 
-      She is the author of the Mosaic of Life method and book, founder of Mastermind Society, and is based in Amsterdam. She works internationally and speaks in English and Russian.
-  intro_script: "Our next speaker spent twenty-five years as an international producer, delivering more than sixty large-scale shows in thirty-five countries, from Royal Albert Hall to Arena di Verona, with Sony, Disney and Netflix. She has led teams of two hundred and fifty people and worked with artists including Ennio Morricone. She now teaches leaders the same craft she used on those stages. Please welcome Julia Krylova."
+      I am the author of the Mosaic of Life method and book, founder of Mastermind Society, and am based in Amsterdam. I work internationally and speak in English and Russian.
+  intro_script: "I spent twenty-five years as an international producer, delivering more than sixty large-scale shows in thirty-five countries, from Royal Albert Hall to Arena di Verona, with Sony, Disney and Netflix. I have led teams of two hundred and fifty people and worked with artists including Ennio Morricone. I now teach leaders the same craft I used on those stages. Please welcome Julia Krylova."
 
 press_mentions: []          # empty list = section hidden
 

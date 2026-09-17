@@ -62,11 +62,11 @@ export async function buildImages({ photosDir, distDir, posterFile }) {
       await sharp(src).rotate().resize({ width: w }).jpeg({ quality: PAGE_QUALITY, mozjpeg: true }).toFile(path.join(imgDir, `${slug}-${w}.jpg`));
     }
 
-    // Film stills feed the gallery only. The downloadable press kit stays
-    // professional photography, so no press derivative for them.
-    const isFilmStill = /^film-still/.test(slug);
+    // Film stills and gallery-only event photos feed the gallery, not the
+    // downloadable press kit, so no press derivative for them.
+    const galleryOnly = /^(film-still|gallery-)/.test(slug);
     let pressFields = {};
-    if (!isFilmStill) {
+    if (!galleryOnly) {
       const pressBase = /^julia-krylova/.test(slug) ? titleCase(slug) : `Julia-Krylova-${titleCase(slug)}`;
       const pressW = Math.min(PRESS_WIDTH, width);
       const pressName = `${pressBase}-${pressW}px.jpg`;

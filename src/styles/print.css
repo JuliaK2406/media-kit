@@ -14,6 +14,9 @@ body {
 .site-nav,
 .btn,
 .copy-btn,
+.topics-cta,
+.section-cta,
+.contact-actions,
 #top-sentinel,
 .video-frame video,
 .video-frame iframe {
@@ -120,9 +123,11 @@ h3 {
   margin-bottom: 4pt;
 }
 
-.contact-big {
-  font-size: 15pt;
-  margin-bottom: 8pt;
+.contact-print p {
+  font-family: var(--font-serif);
+  font-size: 13pt;
+  margin: 0 0 4pt;
+  max-width: none;
 }
 
 .site-footer {
