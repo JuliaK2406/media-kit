@@ -324,25 +324,38 @@ a:hover {
   padding-block: clamp(2.5rem, 6vw, 4rem) 0;
 }
 
-/* Credentials line instead of a display headline: tracked caps, gold separators */
+/* Credentials overline above the headline: tracked caps, gold separators.
+   Each credential is an atomic unit, the line wraps only between them. */
 
 .hero .hero-credentials {
   font-family: var(--font-sans);
-  font-size: clamp(1rem, 0.85rem + 0.8vw, 1.3rem);
+  font-size: clamp(0.75rem, 0.68rem + 0.35vw, 0.9375rem);
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  line-height: 1.6;
+  line-height: 2;
   color: var(--navy);
   margin: 0 0 var(--s-4);
-  max-width: 30em;
-  text-wrap: balance;
+  max-width: none;
+}
+
+.hero-cred-part {
+  display: inline-block;
 }
 
 .hero-sep {
   color: var(--gold);
   font-weight: 400;
-  margin: 0 0.55em;
+  margin: 0 0.3em 0 0.6em;
+}
+
+.hero h1 {
+  font-size: var(--hero-size);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-5);
+  max-width: 14em;
 }
 
 .hero .subhead {

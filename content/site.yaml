@@ -24,7 +24,8 @@ person:
 
 hero:
   photo: julia-krylova.jpg
-  headline: "Strategic mentor for women leaders | Author & Speaker | ex-Sony Masterworks producer" # confirm: строка регалий вместо прежнего крупного заголовка, характер первого экрана изменился
+  credentials: "Strategic mentor for women leaders | Author & Speaker | ex-Sony Masterworks producer"
+  headline: "Your leaders already have the message. I teach them to land it." # confirm: заголовок возвращён поверх строки регалий, а не вместо неё
   subhead: "Based in Amsterdam, working worldwide."
   cta_label: "Check my availability"
 

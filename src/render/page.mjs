@@ -83,10 +83,15 @@ function header(site) {
 function hero(site, manifest) {
   const p = site.person ?? {};
   const h = site.hero ?? {};
-  const metaLine = [p.location, nonEmpty(p.languages) ? p.languages.join(' / ') : '']
-    .filter(Boolean)
-    .map(esc)
-    .join(CAPS_DOT);
+  // each credential is an unbreakable unit with its separator glued to it,
+  // so the line wraps only between credentials
+  const credentials = isTodo(h.credentials)
+    ? t(h.credentials)
+    : String(h.credentials ?? '')
+        .split('|')
+        .map((part) => esc(part.trim()).replace(/ex-/gi, (m) => m[0] + m[1] + '‑'))
+        .map((part, i, arr) => `<span class="hero-cred-part">${part}${i < arr.length - 1 ? '<span class="hero-sep" aria-hidden="true">|</span>' : ''}</span>`)
+        .join(' ');
   return `<section class="hero" aria-label="Introduction">
   <div class="hero-grid">
     <div class="hero-media">${picture(manifest, h.photo, {
@@ -95,21 +100,13 @@ function hero(site, manifest) {
       sizes: '(min-width: 900px) 48vw, 100vw',
     })}</div>
     <div class="hero-copy">
-      <h1 class="hero-credentials">${
-        isTodo(h.headline)
-          ? t(h.headline)
-          : String(h.headline ?? '')
-              .split('|')
-              // non-breaking hyphen keeps "ex-Sony" on one line, display only
-              .map((part) => esc(part.trim()).replace(/ex-/gi, (m) => m[0] + m[1] + '‑'))
-              .join('<span class="hero-sep" aria-hidden="true">|</span>')
-      }</h1>
+      ${h.credentials ? `<p class="hero-credentials">${credentials}</p>` : ''}
+      <h1>${t(h.headline)}</h1>
       <p class="subhead">${t(h.subhead)}</p>
       <div class="hero-actions">
         ${ctaButton(site)}
         ${site.cta?.book_call_url ? `<a class="btn btn-secondary" href="${esc(site.cta.book_call_url)}">${esc(site.cta.book_call_label ?? 'Book a call')}</a>` : ''}
       </div>
-      <p class="meta-line">${metaLine}</p>
     </div>
   </div>
 </section>`;
