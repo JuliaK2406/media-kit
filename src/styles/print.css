@@ -83,12 +83,40 @@ h3 {
   font-size: 11.5pt;
 }
 
+/* Cover: name, round portrait, credentials ladder, caption, then the
+   stats field right below. Everything centered, no dead air. */
+
+.hero {
+  padding-bottom: 6pt;
+}
+
+.hero-print-name {
+  font-family: var(--font-serif);
+  font-size: 26pt;
+  font-weight: 500;
+  text-align: center;
+  margin: 4pt 0 2pt;
+  max-width: none;
+}
+
 .hero-copy {
-  padding-block: 10pt;
+  padding: 0 !important;
+  text-align: center;
+}
+
+.hero .hero-credentials {
+  font-size: 15pt;
+  line-height: 1.45;
+  margin: 0 0 6pt;
+}
+
+.hero-sep + .hero-cred-part::before {
+  margin: 4pt auto;
 }
 
 .hero .subhead {
   font-size: 12pt;
+  margin: 0 auto 10pt;
 }
 
 .quote-featured blockquote {
@@ -99,13 +127,20 @@ h3 {
   font-size: 16pt;
 }
 
-.topic-card,
+/* Objects that never split: a quote stays with its author, a stat pair,
+   a download row, the whole gallery grid, the colored stats field, the
+   large About lead. Topic cards may split between paragraphs instead of
+   leaving a third of a page empty. */
+
 .quote-featured,
 .quote-small,
 .bio-block,
 .fact-row,
 .stat,
-.dl-row {
+.dl-row,
+.gallery-grid,
+.about-copy .lead,
+.proof {
   break-inside: avoid;
 }
 
@@ -170,11 +205,18 @@ h3 {
   print-color-adjust: exact;
 }
 
-/* The aubergine stats field keeps its color in the PDF */
+/* The aubergine stats field keeps its color in the PDF and never splits */
 
 .proof {
-  padding: 16pt 14pt;
+  padding: 14pt;
   margin: 0 0 12pt;
+}
+
+/* In print the press kit keeps the download list but not a second copy
+   of the biography (About is the only place it prints) */
+
+.print-no-bio .bio-block {
+  display: none !important;
 }
 
 .gallery-item,
@@ -214,15 +256,24 @@ h3 {
   display: block;
 }
 
-/* The cover photo stays a full-width rectangle on purpose */
+/* The cover portrait is the same circle as everywhere else */
+
+.photos-circle .hero-media {
+  display: block;
+}
 
 .photos-circle .hero-media img {
-  border-radius: 0 !important;
-  outline: none !important;
-  width: 100% !important;
-  aspect-ratio: 4 / 5 !important;
-  max-height: 110mm !important;
-  object-position: 60% 12%;
+  border-radius: 50% !important;
+  outline: 1px solid var(--gold) !important;
+  outline-offset: 4mm;
+  width: 78mm !important;
+  height: 78mm !important;
+  aspect-ratio: 1 / 1 !important;
+  max-height: none !important;
+  object-fit: cover;
+  object-position: 58% 16%;
+  margin: 6mm auto 7mm;
+  break-inside: avoid;
 }
 
 /* The About portrait prints as the same circle as on screen,
@@ -277,6 +328,11 @@ body.one-sheet {
   font-size: 11.5pt;
   color: var(--aubergine);
   margin: 0 0 4pt;
+}
+
+.one-sheet .os-sep {
+  color: var(--gold);
+  margin: 0 0.35em;
 }
 
 .one-sheet .os-meta {

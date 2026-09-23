@@ -93,6 +93,7 @@ function hero(site, manifest) {
         .join('<span class="hero-sep" aria-hidden="true">|</span>');
   return `<section class="hero" aria-label="Introduction">
   <div class="hero-grid">
+    <p class="print-only hero-print-name">${esc(p.name ?? '')}</p>
     <div class="hero-media">${picture(manifest, h.photo, {
       alt: `Portrait of ${p.name ?? 'the speaker'}`,
       eager: true,
@@ -576,9 +577,11 @@ export function renderPage(site, { manifest = {} } = {}) {
   const baseUrl = String(m.site_url ?? '').replace(/\/$/, '');
   const ogImgUrl = ogImg ? `${baseUrl}/img/${ogImg.slug}-${ogImg.widths[ogImg.widths.length - 1]}.jpg` : '';
   // person.positioning is meta material only: description tags and the share
-  // preview. It never renders in the visible page.
-  const description = m.description ?? p.positioning ?? '';
-  const shareDescription = p.positioning ?? m.description ?? '';
+  // preview. It never renders in the visible page. Pipes read as noise in
+  // plain-text meta fields, so they become commas there.
+  const depipe = (s) => String(s ?? '').split('|').map((x) => x.trim()).filter(Boolean).join(', ');
+  const description = m.description ?? depipe(p.positioning);
+  const shareDescription = depipe(p.positioning) || m.description || '';
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -602,7 +605,12 @@ ${ogImgUrl ? `<meta property="og:image" content="${esc(ogImgUrl)}">\n<meta name=
 <link rel="stylesheet" href="styles/page.css">
 <link rel="stylesheet" href="styles/print.css" media="print">
 </head>
-<body id="top"${['arch', 'circle'].includes(site.photo_shape) ? ` class="photos-${site.photo_shape}"` : ''}>
+<body id="top" class="${[
+    ['arch', 'circle'].includes(site.photo_shape) ? `photos-${site.photo_shape}` : '',
+    site.press_kit?.print_bio === false ? 'print-no-bio' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')}">
 <div id="top-sentinel" aria-hidden="true"></div>
 <a class="skip-link" href="#speaking">Skip to content</a>
 ${header(site)}

@@ -5,12 +5,12 @@ meta:
   published: false          # false = noindex + robots disallow. Set true on launch day
   site_url: https://speaker.juliakrylova.com
   title: "Julia Krylova | Executive Presence & Leadership Speaker"
-  description: "Keynote speaker on executive presence and leadership communication. Twenty-five years producing international shows in 35 countries."
+  description: "Strategic mentor for women leaders, Author & Speaker, ex-Sony Masterworks producer. Based in Amsterdam, working worldwide."
   og_image: julia-krylova.jpg
 
 person:
   name: Julia Krylova
-  positioning: "Keynote speaker on executive presence and leadership communication, drawing on 25 years producing international live productions."
+  positioning: "Strategic mentor for women leaders | Author & Speaker | ex-Sony Masterworks producer"
   location: "Amsterdam, Netherlands"
   languages: [English, Russian]
   email_speaking: "contact@juliakrylova.com"
@@ -194,6 +194,7 @@ about:
     Based in Amsterdam, I deliver keynotes and interactive sessions internationally, in person and online. I'm fluent in English and Russian and can deliver sessions in both languages.
 
 press_kit:
+  print_bio: false # confirm: в PDF биография печатается один раз, в About; блок пресс-кита в печати оставляет только список файлов
   bios:
     # the single press kit bio, the same text as About (edit about.bio_long)
     main: *main_bio

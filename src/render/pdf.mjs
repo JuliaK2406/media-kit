@@ -10,6 +10,14 @@ export function renderOneSheet(site, { css = '' } = {}) {
     .filter(Boolean)
     .map(esc)
     .join(' &middot; ');
+  // positioning is the credentials line: gold pipes, same as the page hero
+  const positioning = isTodo(p.positioning)
+    ? t(p.positioning)
+    : String(p.positioning ?? '')
+        .split('|')
+        .map((part) => esc(part.trim()).replace(/ex-/gi, (m) => m[0] + m[1] + '‑'))
+        .join('<span class="os-sep" aria-hidden="true">|</span>');
+  const showDurations = site.topics_section?.show_durations !== false;
 
   const stats = (site.proof?.stats ?? [])
     .map(
@@ -26,7 +34,7 @@ export function renderOneSheet(site, { css = '' } = {}) {
       (tp) => `<div class="os-topic">
       <h3>${t(tp.title)}</h3>
       <p>${t(tp.summary)}</p>
-      ${Array.isArray(tp.formats) && tp.formats.length ? `<p class="os-format">${tp.formats.map((f) => t(f)).join(' &middot; ')}</p>` : ''}
+      ${showDurations && Array.isArray(tp.formats) && tp.formats.length ? `<p class="os-format">${tp.formats.map((f) => t(f)).join(' &middot; ')}</p>` : ''}
     </div>`,
     )
     .join('');
@@ -63,7 +71,7 @@ ${css}
 <body class="one-sheet">
 <header class="os-header">
   <h1>${esc(p.name ?? '')}</h1>
-  <p class="os-positioning">${t(p.positioning)}</p>
+  <p class="os-positioning">${positioning}</p>
   <p class="os-meta">${metaLine}</p>
 </header>
 ${stats ? `<section><h2>At a glance</h2><div class="os-stats">${stats}</div></section>` : ''}
