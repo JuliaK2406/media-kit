@@ -347,15 +347,46 @@ a:hover {
   }
 }
 
+/* Two states, switched by the width of the text column itself:
+   ladder (default): one credential per line, no pipes, a short gold line
+   between rows; single line: only when the whole string genuinely fits,
+   then the gold pipes return. A pipe is never first or last on a line. */
+
+.hero-copy {
+  container-type: inline-size;
+}
+
 .hero-cred-part {
-  display: inline-block;
+  display: block;
 }
 
 .hero-sep {
+  display: none;
   color: var(--gold);
   font-weight: 400;
   font-size: 0.85em;
   margin: 0 0.35em;
+}
+
+.hero-sep + .hero-cred-part::before {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 1px;
+  background: var(--gold);
+  margin: 0.5em 0;
+}
+
+@container (min-width: 1300px) {
+  .hero-cred-part {
+    display: inline-block;
+  }
+  .hero-sep {
+    display: inline;
+  }
+  .hero-sep + .hero-cred-part::before {
+    display: none;
+  }
 }
 
 .hero .subhead {

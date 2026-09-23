@@ -83,15 +83,14 @@ function header(site) {
 function hero(site, manifest) {
   const p = site.person ?? {};
   const h = site.hero ?? {};
-  // each credential is an unbreakable unit with its separator glued to it,
-  // so the line wraps only between credentials
+  // credentials render in two container-driven states: one line with gold
+  // pipes when everything fits, otherwise a ladder with no pipes at all
   const credentials = isTodo(h.credentials)
     ? t(h.credentials)
     : String(h.credentials ?? '')
         .split('|')
-        .map((part) => esc(part.trim()).replace(/ex-/gi, (m) => m[0] + m[1] + '‑'))
-        .map((part, i, arr) => `<span class="hero-cred-part">${part}${i < arr.length - 1 ? '<span class="hero-sep" aria-hidden="true">|</span>' : ''}</span>`)
-        .join(' ');
+        .map((part) => `<span class="hero-cred-part">${esc(part.trim()).replace(/ex-/gi, (m) => m[0] + m[1] + '‑')}</span>`)
+        .join('<span class="hero-sep" aria-hidden="true">|</span>');
   return `<section class="hero" aria-label="Introduction">
   <div class="hero-grid">
     <div class="hero-media">${picture(manifest, h.photo, {

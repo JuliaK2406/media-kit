@@ -109,50 +109,50 @@ h3 {
   break-inside: avoid;
 }
 
-/* Keep the tail compact so the footer lands on the same page as the contact */
+/* Print flow: normal, readable spacing. The page count is whatever it is;
+   the only hard rules are that a heading never separates from its text,
+   there are no widowed lines, and the footer never prints alone. */
+
+p {
+  orphans: 2;
+  widows: 2;
+}
 
 .bio-block {
   padding-block: 12pt;
 }
 
 .contact {
-  padding-block: 8pt;
+  padding-block: 12pt;
 }
 
 .contact .overline {
-  margin-bottom: 4pt;
+  margin-bottom: 8pt;
+}
+
+.bio-block:last-child {
+  padding-bottom: 12pt;
 }
 
 .contact-print p {
   font-family: var(--font-serif);
-  font-size: 11pt;
-  margin: 0 0 1pt;
+  font-size: 12pt;
+  margin: 0 0 3pt;
   max-width: none;
 }
 
-.contact {
-  padding-block: 6pt;
-}
-
-.site-footer {
-  padding-block: 4pt;
-}
-
-.bio-block {
-  padding-block: 6pt;
-}
-
-.bio-block p {
-  margin-bottom: 6pt;
-}
-
 .dl-row {
-  padding-block: 4pt;
+  padding-block: 8pt;
+}
+
+.contact,
+.site-footer {
+  break-inside: avoid;
 }
 
 .site-footer {
   padding-block: 8pt;
-  break-inside: avoid;
+  break-before: avoid;
 }
 
 h2,
@@ -163,7 +163,7 @@ h3 {
 .todo,
 .img-placeholder,
 .stat,
-.takeaways li::before,
+.hero-sep + .hero-cred-part::before,
 .proof,
 .avatar-initials {
   -webkit-print-color-adjust: exact;
@@ -214,14 +214,32 @@ h3 {
   display: block;
 }
 
-.photos-circle .hero-media img,
-.photos-circle .about-media img {
+/* The cover photo stays a full-width rectangle on purpose */
+
+.photos-circle .hero-media img {
   border-radius: 0 !important;
   outline: none !important;
   width: 100% !important;
   aspect-ratio: 4 / 5 !important;
   max-height: 110mm !important;
   object-position: 60% 12%;
+}
+
+/* The About portrait prints as the same circle as on screen,
+   gold keyline included */
+
+.photos-circle .about-media img {
+  border-radius: 50% !important;
+  outline: 1px solid var(--gold) !important;
+  outline-offset: 4mm;
+  width: 70mm !important;
+  height: 70mm !important;
+  aspect-ratio: 1 / 1 !important;
+  max-height: none !important;
+  object-fit: cover;
+  object-position: 50% 22%;
+  margin: 6mm auto;
+  break-inside: avoid;
 }
 
 a {
