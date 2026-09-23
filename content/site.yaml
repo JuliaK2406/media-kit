@@ -24,14 +24,14 @@ person:
 
 hero:
   photo: julia-krylova.jpg
+  # the credentials line is the page headline, separators render as thin gold lines
   credentials: "Strategic mentor for women leaders | Author & Speaker | ex-Sony Masterworks producer"
-  headline: "Your leaders already have the message. I teach them to land it." # confirm: заголовок возвращён поверх строки регалий, а не вместо неё
   subhead: "Based in Amsterdam, working worldwide."
   cta_label: "Check my availability"
 
-# arch = rounded top edge with an offset gold keyline on the hero and About
-# portraits; change to square to go back to plain rectangles
-photo_shape: arch # confirm: форма фото по умолчанию, арка с золотой рамкой, см. отчёт 08
+# circle = round portraits with an offset gold keyline (hero and About);
+# other values: arch, square
+photo_shape: circle
 
 # Exit points across the page. All mailto buttons reuse person.email_speaking
 cta:
@@ -45,9 +45,9 @@ proof:
   stats:
     - value: "25"
       label: "years producing international live productions"
-    - value: "60+" # confirm: новый текст About говорит 65+ projects, какая пара цифр верная?
+    - value: "65+"
       label: "large-scale productions delivered"
-    - value: "35" # confirm: новый текст About говорит 35+ countries, какая пара цифр верная?
+    - value: "35+"
       label: "countries worked in"
     - value: "170+"
       label: "leaders and entrepreneurs mentored since 2019"
@@ -78,28 +78,32 @@ gallery:
     - image: gallery-event-03.jpg
       caption: "Women in Leadership event, Amsterdam, 2024"
 
-highlights:
-  enabled: true
-  title: "Selected engagements"
-  items:
-    - event: "Masterclass for the Entrepreneurs Circle"
-      place: "Amsterdam"
-      year: "TODO: год"
-    - event: "AI4ALL" # confirm: точное название и город
-      place: "TODO: город"
-      year: "TODO: год"
-    - event: "Mosaic of Life live session" # confirm: точное название и город
-      place: "TODO: город"
-      year: "TODO: год"
-    - event: "Book launch" # confirm: точное название и город
-      place: "TODO: город"
-      year: "TODO: год"
-    - event: "TODO: событие"
-      place: "TODO: город"
-      year: "TODO: год"
+# Selected engagements removed on 23.09 by the client (mixed formats).
+# To bring the section back: uncomment this block and restore the highlights
+# renderer from git history (commit f73c09e has the working version).
+# highlights:
+#   enabled: true
+#   title: "Selected engagements"
+#   items:
+#     - event: "Masterclass for the Entrepreneurs Circle"
+#       place: "Amsterdam"
+#       year: "TODO: год"
+#     - event: "AI4ALL"
+#       place: "TODO: город"
+#       year: "TODO: год"
+#     - event: "Mosaic of Life live session"
+#       place: "TODO: город"
+#       year: "TODO: год"
+#     - event: "Book launch"
+#       place: "TODO: город"
+#       year: "TODO: год"
+#     - event: "TODO: событие"
+#       place: "TODO: город"
+#       year: "TODO: год"
 
 topics_section:
   title: "What I speak about" # confirm: формулировка из документа, возможно имелся в виду рабочий подзаголовок
+  show_durations: false # confirm: длительности убраны у всех трёх тем, в её тексте их не было нигде; если нужны у первых двух, вернём одной строкой
   intro: |
     I speak in different formats: from hands-on workshops and keynotes to moderated panel discussions. The topics I am passionate about are: Leadership, Communication & Influence, Sustainable Success.
 
@@ -126,7 +130,7 @@ topics:
       I share the stories behind their success and turn them into practical tools: how to act on your ambitions without waiting for "the right moment," the routines and discipline that sustain a powerful leader, and how to build real balance without giving up growth.
 
       Through reflection and hands-on exercises, you will get a fresh lens on your own decisions, work flow and goals.
-    formats: ["Keynote 45 min", "Interactive workshop 2 to 3 h"] # confirm: длительности третьей темы заказчица не называла
+    formats: ["Keynote 45 min", "Interactive workshop 2 to 3 h"]
 
 formats:
   delivery: [Interactive workshop, Keynote, Panel discussion]

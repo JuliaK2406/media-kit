@@ -99,7 +99,7 @@ h3 {
   font-size: 16pt;
 }
 
-.topic,
+.topic-card,
 .quote-featured,
 .quote-small,
 .bio-block,
@@ -125,13 +125,25 @@ h3 {
 
 .contact-print p {
   font-family: var(--font-serif);
-  font-size: 11.5pt;
-  margin: 0 0 2pt;
+  font-size: 11pt;
+  margin: 0 0 1pt;
   max-width: none;
 }
 
+.contact {
+  padding-block: 6pt;
+}
+
+.site-footer {
+  padding-block: 4pt;
+}
+
 .bio-block {
-  padding-block: 8pt;
+  padding-block: 6pt;
+}
+
+.bio-block p {
+  margin-bottom: 6pt;
 }
 
 .dl-row {
@@ -166,7 +178,6 @@ h3 {
 }
 
 .gallery-item,
-.highlight-row,
 .faq-item {
   break-inside: avoid;
 }
@@ -196,8 +207,21 @@ h3 {
 }
 
 .photos-arch .hero-media,
-.photos-arch .about-media {
+.photos-arch .about-media,
+.photos-circle .hero-media,
+.photos-circle .about-media {
   padding: 0 !important;
+  display: block;
+}
+
+.photos-circle .hero-media img,
+.photos-circle .about-media img {
+  border-radius: 0 !important;
+  outline: none !important;
+  width: 100% !important;
+  aspect-ratio: 4 / 5 !important;
+  max-height: 110mm !important;
+  object-position: 60% 12%;
 }
 
 a {

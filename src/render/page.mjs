@@ -100,8 +100,7 @@ function hero(site, manifest) {
       sizes: '(min-width: 900px) 48vw, 100vw',
     })}</div>
     <div class="hero-copy">
-      ${h.credentials ? `<p class="hero-credentials">${credentials}</p>` : ''}
-      <h1>${t(h.headline)}</h1>
+      <h1 class="hero-credentials">${credentials}</h1>
       <p class="subhead">${t(h.subhead)}</p>
       <div class="hero-actions">
         ${ctaButton(site)}
@@ -192,25 +191,6 @@ function gallery(site, manifest) {
 </section>`;
 }
 
-function highlights(site) {
-  const h = site.highlights;
-  if (h?.enabled !== true || !nonEmpty(h.items)) return '';
-  const rows = h.items
-    .map(
-      (it) => `<li class="highlight-row" data-reveal>
-      <span class="highlight-event">${t(it.event)}</span>
-      <span class="highlight-meta">${[t(it.place), t(it.year)].filter(Boolean).join(CAPS_DOT)}</span>
-    </li>`,
-    )
-    .join('');
-  return `<section id="highlights" class="section highlights">
-  <div class="container">
-    <h2>${t(h.title)}</h2>
-    <ul class="highlight-list">${rows}</ul>
-  </div>
-</section>`;
-}
-
 function faq(site) {
   const f = site.faq;
   if (f?.enabled !== true || !nonEmpty(f.items)) return '';
@@ -241,21 +221,14 @@ function topics(site) {
       .join('');
   const section = site.topics_section ?? {};
   const intro = section.intro ? `<div class="topics-intro" data-reveal>${paragraphs(section.intro)}</div>` : '';
+  const showDurations = section.show_durations !== false;
   const items = site.topics
     .map(
-      (tp, i) => `<li class="topic" data-reveal>
+      (tp, i) => `<li class="topic-card" data-reveal>
       <div class="topic-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</div>
-      <div class="topic-body">
-        <h3>${t(tp.title)}</h3>
-        <div class="topic-summary">${paragraphs(tp.summary)}</div>
-        ${
-          nonEmpty(tp.takeaways)
-            ? `<p class="takeaways-label">What the audience takes away</p>
-        <ul class="takeaways">${tp.takeaways.map((x) => `<li>${t(x)}</li>`).join('')}</ul>`
-            : ''
-        }
-        ${nonEmpty(tp.formats) ? `<p class="topic-formats">${tp.formats.map((f) => t(f)).join(CAPS_DOT)}</p>` : ''}
-      </div>
+      <h3>${t(tp.title)}</h3>
+      <div class="topic-summary">${paragraphs(tp.summary)}</div>
+      ${showDurations && nonEmpty(tp.formats) ? `<p class="topic-formats">${tp.formats.map((f) => t(f)).join(CAPS_DOT)}</p>` : ''}
     </li>`,
     )
     .join('');
@@ -267,17 +240,17 @@ function topics(site) {
   <div class="container">
     <h2>${t(section.title ?? 'Speaking topics')}</h2>
     ${intro}
-    <ol class="topic-list">${items}</ol>
+    <ol class="topic-grid">${items}</ol>
     ${ctaLine}
   </div>
 </section>`;
 }
 
-// secondary exit point button used under Testimonials and FAQ
+// single exit point button under Testimonials and FAQ: a lone button is gold
 function sectionCta(site, label) {
   const email = site.person?.email_speaking;
   if (!label || !email || isTodo(email)) return '';
-  return `<p class="section-cta"><a class="btn btn-secondary" href="${esc(mailto(email, site.person.name))}">${esc(label)}</a></p>`;
+  return `<p class="section-cta"><a class="btn" href="${esc(mailto(email, site.person.name))}">${esc(label)}</a></p>`;
 }
 
 function formats(site) {
@@ -630,7 +603,7 @@ ${ogImgUrl ? `<meta property="og:image" content="${esc(ogImgUrl)}">\n<meta name=
 <link rel="stylesheet" href="styles/page.css">
 <link rel="stylesheet" href="styles/print.css" media="print">
 </head>
-<body id="top"${site.photo_shape === 'arch' ? ' class="photos-arch"' : ''}>
+<body id="top"${['arch', 'circle'].includes(site.photo_shape) ? ` class="photos-${site.photo_shape}"` : ''}>
 <div id="top-sentinel" aria-hidden="true"></div>
 <a class="skip-link" href="#speaking">Skip to content</a>
 ${header(site)}
@@ -644,7 +617,6 @@ ${videoSection(site, manifest)}
 ${testimonials(site, manifest)}
 ${about(site, manifest)}
 ${formats(site)}
-${highlights(site)}
 ${faq(site)}
 ${pressKit(site, manifest)}
 ${pressMentions(site)}
