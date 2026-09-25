@@ -329,22 +329,29 @@ a:hover {
    separators. Each credential is an atomic unit, wrapping only between them. */
 
 .hero .hero-credentials {
-  font-family: var(--font-serif);
-  /* sized so the longest credential always fits its column in one line */
-  font-size: clamp(1.1875rem, 0.55rem + 2.6vw, 1.9rem);
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 0.68rem + 0.35vw, 0.875rem);
   font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-transform: none;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.8;
   color: var(--navy);
-  margin: 0 0 var(--s-4);
+  margin: 0 0 var(--s-5);
   max-width: none;
 }
 
-@media (min-width: 900px) {
-  .hero .hero-credentials {
-    font-size: clamp(1.25rem, 0.1rem + 2vw, 2rem);
-  }
+/* The tagline holds the headline slot: serif, two lines on wide screens */
+
+.hero .hero-tagline {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 0.9rem + 0.85vw, 1.625rem);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--navy);
+  margin: 0 0 var(--s-4);
+  max-width: 24em;
+  text-wrap: balance;
 }
 
 /* Two states, switched by the width of the text column itself:
@@ -371,10 +378,10 @@ a:hover {
 .hero-sep + .hero-cred-part::before {
   content: "";
   display: block;
-  width: 2rem;
+  width: 1.5rem;
   height: 1px;
   background: var(--gold);
-  margin: 0.5em 0;
+  margin: 0.45em 0;
 }
 
 @container (min-width: 1300px) {
@@ -583,6 +590,8 @@ a:hover {
   text-transform: uppercase;
   color: var(--porcelain-muted);
   max-width: none;
+  /* even out the wrapped lines, no lonely name on the second row */
+  text-wrap: balance;
 }
 
 .clients-line .clients-label {

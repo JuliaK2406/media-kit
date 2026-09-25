@@ -50,6 +50,11 @@ if (!published) {
   console.log('build: robots.txt (Disallow all, page is not published yet)');
 }
 
+// the custom domain file ships with every deploy, published or not,
+// so the domain never falls off after a rebuild
+await writeFile(path.join(distDir, 'CNAME'), 'speaker.juliakrylova.com\n');
+console.log('build: CNAME (speaker.juliakrylova.com)');
+
 await buildPdfs({ site, distDir, root });
 
 console.log('build: done, output in dist/');

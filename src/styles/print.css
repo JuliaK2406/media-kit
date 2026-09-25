@@ -105,9 +105,16 @@ h3 {
 }
 
 .hero .hero-credentials {
-  font-size: 15pt;
-  line-height: 1.45;
+  font-size: 9pt;
+  line-height: 1.7;
   margin: 0 0 6pt;
+}
+
+.hero .hero-tagline {
+  font-size: 16pt;
+  line-height: 1.35;
+  margin: 0 auto 6pt;
+  max-width: 24em;
 }
 
 .hero-sep + .hero-cred-part::before {
@@ -333,6 +340,13 @@ body.one-sheet {
 .one-sheet .os-sep {
   color: var(--gold);
   margin: 0 0.35em;
+}
+
+.one-sheet .os-tagline {
+  font-family: var(--font-serif);
+  font-size: 12pt;
+  color: var(--navy);
+  margin: 2pt 0 4pt;
 }
 
 .one-sheet .os-meta {

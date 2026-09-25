@@ -100,7 +100,8 @@ function hero(site, manifest) {
       sizes: '(min-width: 900px) 48vw, 100vw',
     })}</div>
     <div class="hero-copy">
-      <h1 class="hero-credentials">${credentials}</h1>
+      ${h.tagline ? `<p class="hero-credentials">${credentials}</p>
+      <h1 class="hero-tagline">${t(h.tagline)}</h1>` : `<h1 class="hero-credentials">${credentials}</h1>`}
       <p class="subhead">${t(h.subhead)}</p>
       <div class="hero-actions">
         ${ctaButton(site)}

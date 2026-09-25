@@ -72,6 +72,7 @@ ${css}
 <header class="os-header">
   <h1>${esc(p.name ?? '')}</h1>
   <p class="os-positioning">${positioning}</p>
+  ${site.hero?.tagline ? `<p class="os-tagline">${t(site.hero.tagline)}</p>` : ''}
   <p class="os-meta">${metaLine}</p>
 </header>
 ${stats ? `<section><h2>At a glance</h2><div class="os-stats">${stats}</div></section>` : ''}

@@ -24,8 +24,10 @@ person:
 
 hero:
   photo: julia-krylova.jpg
-  # the credentials line is the page headline, separators render as thin gold lines
+  # the credentials line renders as a small caps overline above the tagline
   credentials: "Strategic mentor for women leaders | Author & Speaker | ex-Sony Masterworks producer"
+  tagline: "I spent 25 years producing world stages. Now I produce the leaders who run your rooms." # confirm: точка в конце добавлена нами, в письме её не было
+  layout: credentials-then-tagline # confirm: порядок двух строк первого экрана выбрали мы, заказчица его не называла
   subhead: "Based in Amsterdam, working worldwide."
   cta_label: "Check my availability"
 
@@ -36,8 +38,8 @@ photo_shape: circle
 # Exit points across the page. All mailto buttons reuse person.email_speaking
 cta:
   topics_line: "Not sure this topic fits your event? Check my availability"
-  testimonials_label: "Check my availability" # confirm: текст кнопки не от заказчицы
-  faq_label: "Check my availability" # confirm: текст кнопки не от заказчицы
+  testimonials_label: "Check my availability"
+  faq_label: "Check my availability"
   book_call_label: "Book a call"
   book_call_url: https://calendly.com/juliakrylova/30min
 
@@ -52,7 +54,7 @@ proof:
     - value: "170+"
       label: "leaders and entrepreneurs mentored since 2019"
   clients_label: "Selected clients and collaborations"
-  clients: [Sony Masterworks, Oracle, Heineken, Avery Dennison, Capgemini, ESA]
+  clients: [Sony Masterworks, Oracle, Heineken, Avery Dennison, Capgemini, European Space Agency]
 
 video:
   enabled: true
@@ -102,8 +104,8 @@ gallery:
 #       year: "TODO: год"
 
 topics_section:
-  title: "What I speak about" # confirm: формулировка из документа, возможно имелся в виду рабочий подзаголовок
-  show_durations: false # confirm: длительности убраны у всех трёх тем, в её тексте их не было нигде; если нужны у первых двух, вернём одной строкой
+  title: "What I speak about"
+  show_durations: false
   intro: |
     I speak in different formats: from hands-on workshops and keynotes to moderated panel discussions. The topics I am passionate about are: Leadership, Communication & Influence, Sustainable Success.
 
