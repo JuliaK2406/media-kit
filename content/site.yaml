@@ -4,7 +4,7 @@
 meta:
   published: false          # false = noindex + robots disallow. Set true on launch day
   site_url: https://speaker.juliakrylova.com
-  title: "Julia Krylova | Executive Presence & Leadership Speaker"
+  title: "Julia Krylova | Strategic Mentor for Women Leaders, Author & Speaker"
   description: "Strategic mentor for women leaders, Author & Speaker, ex-Sony Masterworks producer. Based in Amsterdam, working worldwide."
   og_image: julia-krylova.jpg
 
@@ -26,8 +26,8 @@ hero:
   photo: julia-krylova.jpg
   # the credentials line renders as a small caps overline above the tagline
   credentials: "Strategic mentor for women leaders | Author & Speaker | ex-Sony Masterworks producer"
-  tagline: "I spent 25 years producing world stages. Now I produce the leaders who run your rooms." # confirm: точка в конце добавлена нами, в письме её не было
-  layout: credentials-then-tagline # confirm: порядок двух строк первого экрана выбрали мы, заказчица его не называла
+  tagline: "I spent 25 years producing world stages. Now I produce the leaders who run your rooms."
+  layout: credentials-then-tagline
   subhead: "Based in Amsterdam, working worldwide."
   cta_label: "Check my availability"
 
@@ -196,7 +196,7 @@ about:
     Based in Amsterdam, I deliver keynotes and interactive sessions internationally, in person and online. I'm fluent in English and Russian and can deliver sessions in both languages.
 
 press_kit:
-  print_bio: false # confirm: в PDF биография печатается один раз, в About; блок пресс-кита в печати оставляет только список файлов
+  print_bio: false # in the PDF the biography prints once, in About; the press kit block keeps only the download list
   bios:
     # the single press kit bio, the same text as About (edit about.bio_long)
     main: *main_bio

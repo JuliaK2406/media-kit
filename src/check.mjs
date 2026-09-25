@@ -6,6 +6,12 @@
 //                 normal text, never blocks the build, listed separately here.
 // The marker lives on the value line itself, so it cannot go stale: delete the
 // comment and the entry disappears from the list.
+//
+// RULE (since session 14): "# confirm" goes ONLY on text that we wrote ourselves
+// and that Julia has never seen. It does NOT go on: fixing typos in her text,
+// layout and design decisions, fixes of our own bugs, or applying her own
+// wording in places we missed earlier. Everything in that second list is simply
+// done and shown as a result; if Julia disagrees, she will say so.
 
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
