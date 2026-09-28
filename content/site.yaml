@@ -37,7 +37,7 @@ photo_shape: circle
 
 # Exit points across the page. All mailto buttons reuse person.email_speaking
 cta:
-  topics_line: "Not sure this topic fits your event? Check my availability"
+  topics_line: "Not sure this topic fits your event? Let's have a call and discuss"
   testimonials_label: "Check my availability"
   faq_label: "Check my availability"
   book_call_label: "Book a call"
