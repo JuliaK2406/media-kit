@@ -6,6 +6,8 @@
 //                 normal text, never blocks the build, listed separately here.
 // The marker lives on the value line itself, so it cannot go stale: delete the
 // comment and the entry disappears from the list.
+// A disabled section (enabled: false) is not checked: it does not render,
+// so its TODOs and empty lists do not count until the section is turned on.
 //
 // RULE (since session 14): "# confirm" goes ONLY on text that we wrote ourselves
 // and that Julia has never seen. It does NOT go on: fixing typos in her text,
@@ -31,6 +33,8 @@ function walk(node, prefix, visit) {
   if (Array.isArray(node)) {
     node.forEach((v, i) => walk(v, `${prefix}[${i}]`, visit));
   } else if (node && typeof node === 'object') {
+    // a section switched off with enabled: false is not rendered, skip it
+    if (node.enabled === false) return;
     for (const [k, v] of Object.entries(node)) walk(v, prefix ? `${prefix}.${k}` : k, visit);
   } else {
     visit(prefix, node);
@@ -52,6 +56,7 @@ export function findEmptyLists(site) {
       if (node.length === 0) empty.push(prefix);
       else node.forEach((v, i) => rec(v, `${prefix}[${i}]`));
     } else if (node && typeof node === 'object') {
+      if (node.enabled === false) return;
       for (const [k, v] of Object.entries(node)) rec(v, prefix ? `${prefix}.${k}` : k);
     }
   };
