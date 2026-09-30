@@ -2,7 +2,7 @@
 # "TODO" means the text is not written yet. It shows on the page as a yellow placeholder.
 
 meta:
-  published: false          # false = noindex + robots disallow. Set true on launch day
+  published: true           # true = live: indexable, no noindex meta and no robots.txt
   site_url: https://speaker.juliakrylova.com
   title: "Julia Krylova | Strategic Mentor for Women Leaders, Author & Speaker"
   description: "Strategic mentor for women leaders, Author & Speaker, ex-Sony Masterworks producer. Based in Amsterdam, working worldwide."
